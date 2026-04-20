@@ -40,6 +40,11 @@ type RecordingSink[T any] struct {
 	Puts   []T
 }
 
+// Put records the final storage step of a value.
+//
+// The method intentionally mirrors the minimal sink contract used by lifecycle
+// tests: append an optional "put" event marker first, then retain the value in
+// Puts for later inspection.
 func (s *RecordingSink[T]) Put(value T) {
 	if s.Events != nil {
 		*s.Events = append(*s.Events, "put")
@@ -47,6 +52,12 @@ func (s *RecordingSink[T]) Put(value T) {
 	s.Puts = append(s.Puts, value)
 }
 
+// AssertPanicMessage verifies that fn panics and that the recovered panic value
+// stringifies to the exact expected message.
+//
+// The helper is used when panic text is part of the contract under test. It
+// delegates panic capture to MustPanic so callers can share the same failure
+// shape across packages.
 func AssertPanicMessage(tb testing.TB, scenario string, fn func(), want string) {
 	tb.Helper()
 
@@ -56,6 +67,12 @@ func AssertPanicMessage(tb testing.TB, scenario string, fn func(), want string) 
 	}
 }
 
+// MustPanic runs fn and returns the recovered panic value formatted with
+// fmt.Sprint.
+//
+// If fn does not panic, the helper fails the test immediately. This keeps
+// panic-based contract checks concise while still preserving the calling
+// scenario in the failure output.
 func MustPanic(tb testing.TB, scenario string, fn func()) string {
 	tb.Helper()
 
@@ -75,6 +92,12 @@ func MustPanic(tb testing.TB, scenario string, fn func()) string {
 	return fmt.Sprint(panicValue)
 }
 
+// AssertEventSequence verifies that an observed event log matches the expected
+// sequence exactly.
+//
+// Lifecycle-oriented tests use this helper to keep ordering assertions concise
+// and to produce a stable diagnostic message when a semantic step moves or is
+// omitted.
 func AssertEventSequence(tb testing.TB, scenario string, got []string, want []string) {
 	tb.Helper()
 
@@ -83,24 +106,34 @@ func AssertEventSequence(tb testing.TB, scenario string, got []string, want []st
 	}
 }
 
+// WithSingleP runs fn with GOMAXPROCS forced to 1 and restores the previous
+// setting before returning.
+//
+// The helper is intended for tests and benchmarks that need deterministic
+// single-P behaviour, especially around sync.Pool local-cache semantics. The
+// restoration is scoped to the callback itself rather than deferred to test
+// cleanup so later assertions in the same test see the original runtime state.
 func WithSingleP(tb testing.TB, fn func()) {
 	tb.Helper()
 
 	previous := runtime.GOMAXPROCS(1)
-	tb.Cleanup(func() {
-		runtime.GOMAXPROCS(previous)
-	})
+	defer runtime.GOMAXPROCS(previous)
 
 	fn()
 }
 
+// WithGCDisabled runs fn with automatic GC disabled and restores the previous
+// GC target before returning.
+//
+// This helper is useful when a test or benchmark needs to prevent transient GC
+// cycles from discarding sync.Pool state between tightly-coupled Put/Get steps.
+// As with WithSingleP, restoration happens immediately after fn returns so the
+// helper composes safely inside larger tests.
 func WithGCDisabled(tb testing.TB, fn func()) {
 	tb.Helper()
 
 	previous := debug.SetGCPercent(-1)
-	tb.Cleanup(func() {
-		debug.SetGCPercent(previous)
-	})
+	defer debug.SetGCPercent(previous)
 
 	fn()
 }
@@ -109,7 +142,8 @@ func WithGCDisabled(tb testing.TB, fn func()) {
 // enough for tests and benchmarks that rely on sync.Pool local-cache reuse.
 //
 // Pinning execution to one P avoids per-P handoff surprises, and disabling GC
-// prevents cached values from being discarded between Put and Get.
+// prevents cached values from being discarded between Put and Get. The helper
+// restores both runtime settings before it returns to the caller.
 func WithStablePoolRoundTrip(tb testing.TB, fn func()) {
 	tb.Helper()
 
