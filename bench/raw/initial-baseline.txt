@@ -1,0 +1,514 @@
+goos: linux
+goarch: amd64
+pkg: arcoris.dev/pool
+cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     
+BenchmarkBaseline_AllocOnly_Pointer-16                 	18720524	        63.43 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	19089313	        57.99 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	20519534	        58.26 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	20636941	        57.95 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	22647358	        57.70 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	20774436	        57.79 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	20751523	        60.63 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	19834935	        57.57 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	21756633	        60.07 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_AllocOnly_Pointer-16                 	18449325	        59.26 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        11.11 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        10.80 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        10.85 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        11.02 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        11.44 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        10.98 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        10.85 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        10.92 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        10.92 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Pointer-16    	100000000	        11.16 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	70799622	        17.31 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	72157729	        17.58 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	67169046	        17.93 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	62103330	        17.98 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	66911972	        17.64 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	74533095	        17.29 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	68216169	        17.70 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	66882794	        16.89 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	65968568	        18.02 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Pointer-16    	69086652	        17.88 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	209959130	         5.667 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	229691054	         5.476 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	226414941	         5.045 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	222551886	         5.103 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	238396231	         5.057 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	248290748	         5.155 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	236296062	         5.601 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	220390986	         5.032 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	247483622	         5.446 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_AllocOnly_Value-16                   	227273812	         5.603 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	20507020	        56.09 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	35669416	        61.39 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	29469054	        36.20 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	39294992	        33.69 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	34775737	        30.59 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	37314043	        31.18 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	39007334	        33.27 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	33949024	        30.51 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	38264713	        32.73 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_RawSyncPool_Value-16      	39694738	        32.98 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	16620370	        69.32 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	17627872	        68.87 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	17037422	        69.55 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	17154120	        69.14 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	17507643	        69.37 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	17284746	        70.18 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	17622164	        68.45 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	16792831	        68.62 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	16725386	        70.06 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkBaseline_Controlled_ARCORISPool_Value-16      	16578529	        67.99 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	19204150	        63.88 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	19824128	        62.79 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	19044007	        64.56 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	20425500	        58.89 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	21535494	        61.91 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	19654404	        60.60 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	17383548	        63.70 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	18501706	        63.01 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	20445108	        60.04 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/realistic-alloc-only-16         	18840655	        61.55 ns/op	         1.000 news/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	131837210	         8.923 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	132876730	         8.909 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	120141744	         9.458 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	131135517	         9.418 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	131128674	         8.857 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	131303654	         9.246 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	128382189	         9.259 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	134641076	         9.244 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	134937105	         8.912 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-raw-sync-pool-16     	135855020	         9.041 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	85350733	        13.91 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	92242398	        14.14 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	86116899	        13.71 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	87283848	        13.72 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	84046549	        14.37 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	84624448	        14.59 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	81437148	        14.52 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	83049964	        14.51 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	84230310	        14.32 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_PointerBaselines/controlled-arcoris-pool-16      	75862359	        14.90 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	223136028	         5.296 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	230633929	         5.341 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	215448722	         5.128 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	244235379	         5.261 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	215496013	         5.534 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	217183106	         5.534 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	216023641	         5.534 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	216885636	         5.474 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	217872390	         5.308 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/realistic-alloc-only-16           	232084282	         5.373 ns/op	         1.000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	31120905	        39.11 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	50561106	        42.77 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	50113491	        22.94 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	54926869	        29.12 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	53021862	        24.89 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	51687582	        24.33 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	49857786	        28.27 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	49598268	        23.59 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	46273348	        24.40 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-raw-sync-pool-16       	55136529	        36.87 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	23293918	        48.43 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	20797728	        49.72 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	24351921	        49.17 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	22998968	        56.91 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	26303834	        51.81 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	25738062	        72.82 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	20858089	        54.02 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	23315779	        55.28 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	19550962	        56.51 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_ValueBaselines/controlled-arcoris-pool-16        	22078320	        49.48 ns/op	         0 news/op	      48 B/op	       1 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	89154853	        14.48 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	87185744	        14.75 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	81036745	        15.14 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	70305252	        14.81 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	89252781	        14.94 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	86213529	        14.45 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	88176830	        14.44 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	76200345	        13.99 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	85092308	        13.74 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-accepted-16            	83688445	        14.23 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	80979768	        14.24 ns/op	         0.0000000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	78472947	        14.68 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	80976538	        14.56 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	76797296	        14.45 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	84636948	        14.23 ns/op	         0.0000000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	89821434	        14.41 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	87648621	        14.75 ns/op	         0.0000000 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	88247382	        14.38 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	90208932	        14.41 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-accepted-16             	90430690	        14.22 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	10944021	       108.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	10698376	       104.1 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	11387916	       108.1 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	11104059	       108.0 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	11026160	       108.7 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	10972754	       108.9 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	10920082	       107.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	11056453	       109.0 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	11135772	       108.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-rejected-16             	10768903	       107.9 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  707642	      1644 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  708010	      1632 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  698679	      1639 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  669486	      1652 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  706573	      1639 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  732754	      1655 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  693434	      1674 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  725552	      1641 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  735828	      1658 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/controlled-reset-heavy-16         	  733888	      1611 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	10362978	       113.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	11554072	       111.5 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	11027040	       109.1 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	11615250	       107.9 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	11404248	       111.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	11424824	       108.7 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	10032482	       139.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	10622502	       110.7 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	10190982	       113.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_LifecyclePaths/realistic-drop-observed-16        	10191730	       111.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	71266634	        17.66 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	69539138	        17.10 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	71303544	        17.46 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	71484873	        18.49 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	65751864	        18.70 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	63887584	        18.65 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	65969949	        17.51 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	74082607	        17.41 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	72160640	        17.42 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-small-16               	70010394	        17.19 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	43840222	        25.26 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	49472278	        25.11 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	45855963	        26.42 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	44740944	        26.74 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	45358612	        27.05 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	44931457	        26.92 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	40685986	        27.47 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	45104413	        26.64 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	43964856	        25.16 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-pointer-with-slices-16         	46333995	        27.02 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	31285597	        42.17 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	38293340	        38.69 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	38771178	        31.79 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	39867028	        32.54 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	39560222	        30.95 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	41152521	        28.53 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	44077544	        30.05 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	43596411	        30.17 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	38880634	        28.66 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-small-16                 	37118834	        29.10 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	16121263	       132.4 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	15519058	        78.58 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	14652158	        80.96 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	15725803	        81.91 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	14287717	        78.59 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	16224607	        90.15 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	13321177	        85.59 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	14862591	        72.77 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	15927001	        75.11 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/controlled-value-large-16                 	16718265	        84.01 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1046338	      1109 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1000000	      1164 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1000000	      1118 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1000000	      1083 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1098597	      1073 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1000000	      1085 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1000000	      1152 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1000000	      1233 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1047886	      1125 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Shapes/realistic-always-oversized-rejected-16    	 1000000	      1109 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	505867533	         2.297 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	477505966	         2.284 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	463963062	         2.725 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	472496475	         2.292 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	479960145	         2.298 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	493957582	         2.318 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	512811139	         2.151 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	499656897	         2.185 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	526503804	         2.263 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-accepted-16                   	548750191	         2.322 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	13565764	        81.60 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	15568676	        81.55 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	15026509	        80.89 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	12803325	        83.88 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	14469026	        81.84 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	14926140	        80.50 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	15721245	        77.04 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	15765346	        70.60 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	17549490	        70.06 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-rejected-16                   	16302778	        71.89 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	520261675	         2.241 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	480173916	         2.325 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	493003740	         2.090 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	572936532	         2.441 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	549445945	         2.017 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	507947840	         2.083 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	601229589	         1.848 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	707226322	         1.824 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	520659870	         1.942 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-raw-sync-pool-16              	670475085	         1.903 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	293439118	         3.918 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	314252830	         3.466 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	297809896	         3.587 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	401891858	         3.497 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	352072062	         3.186 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	233233966	         4.735 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	366753939	         3.259 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	400605751	         3.141 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	324901533	         3.142 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Parallel/realistic-arcoris-pool-16               	348838436	         3.134 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	76337353	        14.39 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	82707541	        13.98 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	90384626	        13.56 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	88543758	        14.24 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	82516879	        14.75 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	78649946	        14.60 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	82036652	        14.55 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	80905264	        14.28 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	84457425	        13.58 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/controlled-accepted-warm-path-16         	87900058	        13.72 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	12263902	       101.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	11790364	       102.4 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	10839616	       107.4 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	11059128	       110.5 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	11115290	       106.9 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	11428898	       105.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	10935150	       109.1 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	10808008	       108.9 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	11073891	       108.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-rejected-steady-state-16       	10873156	       107.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6382113	       189.5 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6472864	       185.4 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6546458	       182.0 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6185084	       185.9 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6546165	       185.7 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6491481	       184.6 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6511546	       188.0 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6577668	       185.6 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6276058	       186.3 ns/op	         0.1250 drops/op	         0.1251 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkCompare_Metrics/realistic-mixed-reuse-16                 	 6467007	       185.7 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	64585920	        17.64 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	67594171	        17.73 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	66743253	        17.57 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	66519849	        17.87 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	66720130	        17.60 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	67124139	        17.89 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	67179070	        17.75 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	65149408	        17.73 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	65580316	        17.57 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_ControlledAcceptedWarmPath-16                    	66122365	        17.67 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	10739056	       108.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	10701660	       110.4 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	11351065	       111.9 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	10772710	       111.7 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	11157645	       109.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	11325640	       112.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	11115525	       109.4 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	10905303	       113.1 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	10963162	       110.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticRejectedSteadyState-16                  	10795543	       110.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 6305313	       185.1 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 7103356	       177.4 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 7393834	       173.9 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 7081568	       180.9 ns/op	         0.1250 drops/op	         0.1250 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 6289669	       177.3 ns/op	         0.1250 drops/op	         0.1251 news/op	         0.1250 reuse_denials/op	    1093 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 6288850	       188.1 ns/op	         0.1250 drops/op	         0.1251 news/op	         0.1250 reuse_denials/op	    1092 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 7400234	       185.1 ns/op	         0.1250 drops/op	         0.1251 news/op	         0.1250 reuse_denials/op	    1093 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 6179900	       184.5 ns/op	         0.1250 drops/op	         0.1251 news/op	         0.1250 reuse_denials/op	    1093 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 6343414	       187.2 ns/op	         0.1250 drops/op	         0.1251 news/op	         0.1250 reuse_denials/op	    1093 B/op	       0 allocs/op
+BenchmarkMetrics_RealisticMixedReuse-16                           	 6751954	       179.5 ns/op	         0.1250 drops/op	         0.1251 news/op	         0.1250 reuse_denials/op	    1093 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	488905453	         2.260 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	539113269	         2.309 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	558724611	         2.359 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	504200524	         2.284 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	469100769	         2.411 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	558850369	         2.516 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	573334441	         2.376 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	509078990	         2.225 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	513435790	         2.640 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticAccepted-16                            	492914102	         2.364 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	15946705	        72.99 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	16172018	        71.93 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	17003947	        70.46 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	15764622	        72.72 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	16561213	        73.64 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	16161895	        72.06 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	16090035	        71.35 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	17885829	        77.13 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	15879754	        88.34 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRejected-16                            	14839962	        96.55 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     288 B/op	       2 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	549967954	         1.998 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	658189604	         1.867 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	587921623	         2.000 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	649284261	         2.036 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	639071032	         2.065 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	541598570	         1.895 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	539690199	         2.195 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	578955295	         2.074 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	534327200	         2.073 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticRawSyncPool-16                         	633605323	         1.920 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	295796256	         4.405 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	236019042	         4.838 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	235145042	         4.456 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	309459591	         3.392 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	385933340	         3.641 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	214544727	         5.155 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	318812324	         3.945 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	226725741	         4.887 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	306742394	         3.460 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkParallel_RealisticARCORISPool-16                         	311302083	         3.736 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	64224607	        18.16 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	69770596	        17.20 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	75348756	        16.55 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	63706564	        16.82 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	73021726	        16.80 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	67525420	        16.66 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	65869419	        16.65 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	68964054	        16.57 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	66602665	        17.23 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledAccepted-16                              	68785315	        16.23 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	87286387	        13.79 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	76248565	        14.23 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	77298668	        20.76 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	81922069	        14.90 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	81377167	        21.58 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	61847623	        20.00 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	76130890	        23.76 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	83140072	        14.41 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	80639882	        15.88 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticAccepted-16                               	85452722	        15.26 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	10619433	       108.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	10717617	       112.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	10938885	       109.5 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	10698309	       110.1 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	11729749	       106.3 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	10736242	       107.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	10769986	       110.1 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	10428348	       109.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	10557060	       109.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticRejected-16                               	11605968	       120.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  542779	      2102 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  595924	      2111 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  608985	      2101 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  622035	      2042 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  509224	      2074 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  517766	      2131 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  569455	      2175 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  550623	      2187 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  537156	      2226 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_ControlledResetHeavy-16                            	  546816	      2215 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	10432545	       141.8 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	11197740	       122.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	 9013027	       133.7 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	 9204343	       137.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	 9916722	       116.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	10350685	       119.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	11273419	       122.6 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	10514133	       117.9 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	 9287620	       128.4 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkPaths_RealisticDropObserved-16                           	 9789010	       123.2 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	     304 B/op	       2 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	66163416	        18.29 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	64483897	        18.37 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	65295308	        18.28 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	66690704	        18.68 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	64647373	        18.38 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	66229712	        18.18 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	65589691	        18.35 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	66168242	        18.32 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	64682498	        18.06 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerSmall-16                         	66382629	        18.50 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	45239835	        27.13 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	44194268	        26.88 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	42761373	        26.96 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	44109864	        26.92 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	44393236	        27.18 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	44539134	        26.85 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	43483056	        26.75 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	45041961	        26.79 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	44985948	        26.83 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledPointerWithSlices-16                    	49897395	        24.95 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	31329394	        64.65 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	37602276	        31.17 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	39705978	        34.22 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	40005901	        30.18 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	44425360	        29.16 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	44478004	        27.90 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	38682062	        27.43 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	39824306	        34.16 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	43095552	        29.70 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueSmall-16                           	38532754	        28.78 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	16258692	       196.0 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	12876331	        90.56 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	14775609	        79.29 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	15034393	        71.26 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	16544109	        76.07 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	13512550	        78.56 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	17870660	        73.70 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	16529028	        70.64 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	17729818	        71.77 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_ControlledValueLarge-16                           	16816231	        67.68 ns/op	         0 news/op	     128 B/op	       1 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  906459	      1342 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9247 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  880426	      1367 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  864729	      1353 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  804057	      1247 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  998052	      1280 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  903880	      1370 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  946843	      1389 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  875810	      1375 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  878613	      1301 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+BenchmarkShapes_AlwaysOversizedRejected-16                        	  942414	      1353 ns/op	         1.000 drops/op	         1.000 news/op	         1.000 reuse_denials/op	    9248 B/op	       3 allocs/op
+PASS
+ok  	arcoris.dev/pool	648.461s
+goos: linux
+goarch: amd64
+pkg: arcoris.dev/pool/internal/backend
+cpu: AMD Ryzen 7 7840HS w/ Radeon 780M Graphics     
+BenchmarkSyncPool_GetMiss-16                     	25514020	        47.04 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	24499868	        46.71 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	24742735	        46.39 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	27011846	        46.72 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	24784309	        47.44 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	24937338	        47.61 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	26780613	        48.42 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	24668640	        48.25 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	24974781	        48.17 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_GetMiss-16                     	24533254	        47.85 ns/op	         1.000 news/op	      24 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	100000000	        10.77 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	100000000	        10.40 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	121955510	         9.834 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	123342705	         9.590 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	123990632	         9.737 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	100000000	        10.70 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	100000000	        10.04 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	120902329	         9.841 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	100000000	        10.69 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Pointer-16    	100000000	        10.76 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	48356370	        31.51 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	60622348	        22.75 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	53021277	        20.93 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	57282694	        21.03 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	61915399	        22.08 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	55800459	        21.02 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	52251451	        21.91 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	54659841	        20.84 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	51642608	        21.09 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_ControlledGetPut_Value-16      	53517650	        20.73 ns/op	         0 news/op	      32 B/op	       1 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	676278469	         1.805 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	705727304	         1.765 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	759652419	         1.939 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	494784745	         2.023 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	546305353	         2.166 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	527699955	         2.290 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	516989460	         2.060 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	519818268	         2.129 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	601384483	         1.837 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+BenchmarkSyncPool_RealisticParallel-16           	555145042	         1.885 ns/op	         0 news/op	       0 B/op	       0 allocs/op
+PASS
+ok  	arcoris.dev/pool/internal/backend	55.839s
+PASS
+ok  	arcoris.dev/pool/internal/testutil	0.011s
