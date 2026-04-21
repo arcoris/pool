@@ -1,5 +1,19 @@
 
-
+#
+# Copyright 2026 The ARCORIS Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 """
 plot_benchmarks.py
 
@@ -36,7 +50,7 @@ The script supports two explicit workflows.
    Input:
    - one or more raw `go test -bench` output files.
    Output:
-   - one or more single-snapshot charts grouped by metric.
+   - one or more single-snapshot charts grouped by benchmark family and metric.
 
 The script is deliberately explicit about the distinction because compare
 charts and snapshot charts answer different presentation needs.
@@ -70,19 +84,32 @@ Supported assumptions for snapshot parsing:
 - the remaining fields are alternating numeric-value and metric-unit pairs;
 - non-benchmark lines such as `goos:`, `pkg:`, `PASS`, and `ok` are ignored.
 
+Raw snapshot collection in this repository intentionally uses repeated runs,
+for example `go test -bench ... -count 10`. A single snapshot file therefore
+contains multiple samples for the same benchmark and metric. Snapshot charts do
+not plot every raw line directly. Instead, snapshot mode:
+
+- groups repeated samples by normalized benchmark name and metric;
+- aggregates those repeated values into one representative value;
+- uses median by default because it is robust and report-friendly;
+- groups the resulting representative rows by benchmark family and metric.
+
 This parser is intentionally conservative. It does not try to infer meaning
 from arbitrary text logs or partially malformed benchmark lines.
 
 Output model
 ------------
 
-For every parsed comparison table or snapshot metric group, the script writes
-one or more SVG files to the output chart directory. Output files are chunked
-when a chart would otherwise contain too many benchmark rows.
+For every parsed comparison table or snapshot chart group, the script writes
+one or more SVG files to the output chart directory. Snapshot output file names
+include the source stem, benchmark family, and metric. Output files are still
+chunked when a chart would otherwise contain too many benchmark rows, but
+family-plus-metric grouping keeps chunking as a fallback instead of the normal
+case.
 
 The generated charts are intentionally simple and GitHub-friendly:
 - static SVG by default;
-- one figure per table or per snapshot metric;
+- one figure per compare table or per snapshot family-plus-metric group;
 - horizontal bars for readable benchmark labels;
 - benchmark names on the Y axis;
 - old/new bars plus delta labels in compare mode;
@@ -113,7 +140,13 @@ Typical use:
 
     python3 bench/scripts/plot_benchmarks.py \
         --mode snapshot \
-        --input bench/raw/*.txt
+        --input bench/raw/initial-baseline.txt \
+        --snapshot-aggregate median
+
+    python3 bench/scripts/plot_benchmarks.py \
+        --mode snapshot \
+        --input bench/raw/*.txt \
+        --snapshot-include-compare
 
 Once charts are generated, they can be referenced from:
 - README.md
@@ -141,7 +174,8 @@ import sys
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from typing import Callable, Iterable, List, Optional, Sequence
+from statistics import mean, median
+from typing import Callable, Iterable, List, Optional, Sequence, TypeVar
 
 
 # ---------------------------------------------------------------------------
@@ -177,6 +211,48 @@ DEFAULT_FIGURE_WIDTH = 12.0
 DEFAULT_NUMERIC_PRECISION = 3
 EXIT_RENDER_FAILURE = 1
 EXIT_CONFIGURATION_FAILURE = 2
+
+SNAPSHOT_AGGREGATE_MEDIAN = "median"
+SNAPSHOT_AGGREGATE_MEAN = "mean"
+SNAPSHOT_AGGREGATE_MIN = "min"
+SNAPSHOT_AGGREGATE_MAX = "max"
+SNAPSHOT_AGGREGATION_CHOICES = (
+    SNAPSHOT_AGGREGATE_MEDIAN,
+    SNAPSHOT_AGGREGATE_MEAN,
+    SNAPSHOT_AGGREGATE_MIN,
+    SNAPSHOT_AGGREGATE_MAX,
+)
+DEFAULT_SNAPSHOT_AGGREGATE = SNAPSHOT_AGGREGATE_MEDIAN
+
+SNAPSHOT_FAMILY_BACKEND = "backend"
+SNAPSHOT_FAMILY_BASELINES = "baselines"
+SNAPSHOT_FAMILY_PATHS = "paths"
+SNAPSHOT_FAMILY_SHAPES = "shapes"
+SNAPSHOT_FAMILY_PARALLEL = "parallel"
+SNAPSHOT_FAMILY_METRICS = "metrics"
+SNAPSHOT_FAMILY_COMPARE = "compare"
+SNAPSHOT_FAMILY_OTHER = "other"
+
+SNAPSHOT_FAMILY_ORDER = (
+    SNAPSHOT_FAMILY_BACKEND,
+    SNAPSHOT_FAMILY_BASELINES,
+    SNAPSHOT_FAMILY_PATHS,
+    SNAPSHOT_FAMILY_SHAPES,
+    SNAPSHOT_FAMILY_PARALLEL,
+    SNAPSHOT_FAMILY_METRICS,
+    SNAPSHOT_FAMILY_COMPARE,
+    SNAPSHOT_FAMILY_OTHER,
+)
+
+SNAPSHOT_FAMILY_PREFIXES = (
+    ("BenchmarkSyncPool_", SNAPSHOT_FAMILY_BACKEND),
+    ("BenchmarkBaseline_", SNAPSHOT_FAMILY_BASELINES),
+    ("BenchmarkPaths_", SNAPSHOT_FAMILY_PATHS),
+    ("BenchmarkShapes_", SNAPSHOT_FAMILY_SHAPES),
+    ("BenchmarkParallel_", SNAPSHOT_FAMILY_PARALLEL),
+    ("BenchmarkMetrics_", SNAPSHOT_FAMILY_METRICS),
+    ("BenchmarkCompare_", SNAPSHOT_FAMILY_COMPARE),
+)
 
 
 @dataclass(frozen=True)
@@ -350,42 +426,57 @@ class ComparisonTable:
 
 
 @dataclass(frozen=True)
-class SnapshotBenchmarkRow:
-    """One raw benchmark line parsed from `go test -bench` output.
+class SnapshotBenchmarkSample:
+    """One raw benchmark sample parsed from `go test -bench` output.
+
+    Snapshot files in this repository intentionally contain repeated benchmark
+    samples produced by `-count N`. This structure preserves the raw sample
+    before any aggregation is applied.
 
     Attributes:
         name: Benchmark name with the Go benchmark CPU suffix removed.
+        family: Repository-specific benchmark family classification.
         iterations: Iteration count reported by the benchmark run.
         metrics: Metric values exactly as they appeared on the line, keyed by
             metric label such as `ns/op`, `B/op`, `allocs/op`, or `news/op`.
     """
 
     name: str
+    family: str
     iterations: int
     metrics: dict[str, float]
 
 
 @dataclass(frozen=True)
-class SnapshotMetricRow:
-    """One benchmark row projected onto one metric for chart generation."""
+class AggregatedSnapshotMetricRow:
+    """One representative benchmark value after collapsing repeated samples.
+
+    Snapshot charts should represent one current benchmark state, not every raw
+    `-count` sample separately. This row therefore stores the aggregated value
+    for one benchmark and one metric.
+    """
 
     name: str
+    family: str
     value: float
-    iterations: int
+    sample_count: int
 
 
 @dataclass(frozen=True)
-class SnapshotMetricTable:
-    """One snapshot metric group ready for chart rendering.
+class SnapshotChartGroup:
+    """One curated snapshot chart group for one family and one metric.
 
-    Snapshot mode groups a raw benchmark file by metric. Each metric group
-    becomes one or more charts, depending on row count and chunking.
+    Snapshot mode first aggregates repeated samples, then groups the resulting
+    representative values by repository benchmark family and metric. Each group
+    becomes one or more rendered charts depending on row count.
     """
 
+    family: str
     metric_label: str
     source_stem: str
+    aggregation_mode: str
     title: str
-    rows: List[SnapshotMetricRow]
+    rows: List[AggregatedSnapshotMetricRow]
 
 
 @dataclass(frozen=True)
@@ -425,10 +516,20 @@ def build_parser(paths: RepositoryPaths) -> argparse.ArgumentParser:
       --mode snapshot \\
       --input {paths.bench_raw_dir}/initial-baseline.txt
 
+    python3 bench/scripts/plot_benchmarks.py \\
+      --mode snapshot \\
+      --input {paths.bench_raw_dir}/initial-baseline.txt \\
+      --snapshot-aggregate {DEFAULT_SNAPSHOT_AGGREGATE}
+
   All snapshot files:
     python3 bench/scripts/plot_benchmarks.py \\
       --mode snapshot \\
       --input '{paths.bench_raw_dir}/*.txt'
+
+    python3 bench/scripts/plot_benchmarks.py \\
+      --mode snapshot \\
+      --input {paths.bench_raw_dir}/initial-baseline.txt \\
+      --snapshot-include-compare
 
 Default input locations:
   compare mode:  {paths.bench_compare_dir}/{DEFAULT_COMPARE_INPUT_GLOB}
@@ -439,7 +540,7 @@ Default output directory:
 """
     parser = argparse.ArgumentParser(
         description=(
-            "Generate SVG benchmark charts from either compare CSV or raw benchmark snapshots."
+            "Generate SVG benchmark charts from either compare CSV or curated raw benchmark snapshots."
         ),
         epilog=epilog,
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -450,7 +551,8 @@ Default output directory:
         default=DEFAULT_MODE,
         help=(
             "Input workflow: compare mode reads benchstat-style CSV; "
-            "snapshot mode reads raw go test -bench output. "
+            "snapshot mode reads raw go test -bench output, aggregates repeated "
+            "samples, and groups charts by benchmark family and metric. "
             f"Default: {DEFAULT_MODE}"
         ),
     )
@@ -488,6 +590,25 @@ Default output directory:
         help=(
             "Maximum number of benchmark rows per chart. If a table contains more "
             "rows, it will be split into multiple charts."
+        ),
+    )
+    parser.add_argument(
+        "--snapshot-aggregate",
+        choices=SNAPSHOT_AGGREGATION_CHOICES,
+        default=DEFAULT_SNAPSHOT_AGGREGATE,
+        help=(
+            "Representative value used to collapse repeated raw benchmark samples "
+            "in snapshot mode. Default: "
+            f"{DEFAULT_SNAPSHOT_AGGREGATE}"
+        ),
+    )
+    parser.add_argument(
+        "--snapshot-include-compare",
+        action="store_true",
+        help=(
+            "Include BenchmarkCompare_* families in snapshot charts. "
+            "By default they are excluded because compare benches are grouping "
+            "surfaces rather than current-state snapshot evidence."
         ),
     )
     parser.add_argument(
@@ -855,7 +976,24 @@ def parse_snapshot_metric_pairs(metric_tokens: Sequence[str]) -> dict[str, float
     return metrics
 
 
-def parse_snapshot_benchmark_line(line: str) -> Optional[SnapshotBenchmarkRow]:
+def classify_snapshot_benchmark_family(benchmark_name: str) -> str:
+    """Classify one benchmark into the repository's snapshot chart families.
+
+    Snapshot charts are repository-specific presentation artifacts, not generic
+    benchmark dashboards. The family model therefore follows the benchmark
+    naming contract used by this repository's benchmark suites.
+
+    Unknown benchmark prefixes are assigned to `other` instead of being merged
+    silently into an unrelated family.
+    """
+
+    for prefix, family in SNAPSHOT_FAMILY_PREFIXES:
+        if benchmark_name.startswith(prefix):
+            return family
+    return SNAPSHOT_FAMILY_OTHER
+
+
+def parse_snapshot_benchmark_line(line: str) -> Optional[SnapshotBenchmarkSample]:
     """Parse one raw `go test -bench` result line.
 
     Non-benchmark lines are ignored by returning None. Benchmark-like lines
@@ -883,14 +1021,16 @@ def parse_snapshot_benchmark_line(line: str) -> Optional[SnapshotBenchmarkRow]:
         )
 
     metrics = parse_snapshot_metric_pairs(tokens[2:])
-    return SnapshotBenchmarkRow(
-        name=normalize_raw_benchmark_name(benchmark_name),
+    normalized_name = normalize_raw_benchmark_name(benchmark_name)
+    return SnapshotBenchmarkSample(
+        name=normalized_name,
+        family=classify_snapshot_benchmark_family(normalized_name),
         iterations=int(iteration_token),
         metrics=metrics,
     )
 
 
-def order_snapshot_metric_labels(rows: Sequence[SnapshotBenchmarkRow]) -> List[str]:
+def order_snapshot_metric_labels(rows: Sequence[SnapshotBenchmarkSample]) -> List[str]:
     """Return snapshot metric labels in repository-friendly chart order.
 
     Core metrics come first so raw snapshot output consistently starts with the
@@ -923,44 +1063,142 @@ def order_snapshot_metric_labels(rows: Sequence[SnapshotBenchmarkRow]) -> List[s
     )
 
 
-def build_snapshot_metric_tables(
-    rows: Sequence[SnapshotBenchmarkRow], *, source_stem: str
-) -> List[SnapshotMetricTable]:
-    """Group one raw benchmark snapshot into chartable metric tables.
+def aggregate_snapshot_values(values: Sequence[float], aggregation_mode: str) -> float:
+    """Collapse repeated raw snapshot values into one representative number.
 
-    Snapshot mode renders one metric at a time. This keeps charts readable and
-    matches the way benchmark metrics are usually cited in repository reports.
+    Raw snapshot files intentionally contain repeated samples from `-count`.
+    Snapshot charts should show one representative benchmark state, not every
+    sample line. Median is the default because it is robust to outliers and is
+    generally the most report-friendly summary for repeated microbenchmark runs.
     """
 
-    tables: List[SnapshotMetricTable] = []
+    if not values:
+        raise ValueError("cannot aggregate an empty snapshot value set")
 
-    for metric_label in order_snapshot_metric_labels(rows):
-        metric_rows: List[SnapshotMetricRow] = []
+    if aggregation_mode == SNAPSHOT_AGGREGATE_MEDIAN:
+        return float(median(values))
+    if aggregation_mode == SNAPSHOT_AGGREGATE_MEAN:
+        return float(mean(values))
+    if aggregation_mode == SNAPSHOT_AGGREGATE_MIN:
+        return float(min(values))
+    if aggregation_mode == SNAPSHOT_AGGREGATE_MAX:
+        return float(max(values))
 
-        for row in rows:
-            if metric_label not in row.metrics:
-                continue
-            metric_rows.append(
-                SnapshotMetricRow(
-                    name=row.name,
-                    value=row.metrics[metric_label],
-                    iterations=row.iterations,
-                )
-            )
+    raise ValueError(f"unsupported snapshot aggregation mode: {aggregation_mode}")
 
-        if not metric_rows:
+
+def order_snapshot_families(samples: Sequence[SnapshotBenchmarkSample]) -> List[str]:
+    """Return families in the repository's preferred snapshot-chart order."""
+
+    present = {sample.family for sample in samples}
+    priority = {family: index for index, family in enumerate(SNAPSHOT_FAMILY_ORDER)}
+
+    return sorted(
+        present,
+        key=lambda family: (
+            priority.get(family, len(priority)),
+            family,
+        ),
+    )
+
+
+def build_snapshot_chart_groups(
+    samples: Sequence[SnapshotBenchmarkSample],
+    *,
+    source_stem: str,
+    aggregation_mode: str,
+    include_compare: bool,
+) -> tuple[List[SnapshotChartGroup], List[str]]:
+    """Build curated family-plus-metric snapshot groups from raw samples.
+
+    The pipeline is intentionally explicit:
+
+    raw benchmark lines
+    -> parsed samples
+    -> grouped by benchmark name and metric
+    -> repeated values aggregated
+    -> grouped by family and metric
+    -> rendered, with chunking only as a fallback for large groups
+
+    Compare-family benchmarks are excluded by default because they are report
+    grouping surfaces and would otherwise pollute current-state snapshot charts.
+    """
+
+    filtered_samples: List[SnapshotBenchmarkSample] = []
+    unknown_benchmarks: List[str] = []
+    unknown_seen: set[str] = set()
+
+    for sample in samples:
+        if sample.family == SNAPSHOT_FAMILY_COMPARE and not include_compare:
             continue
+        filtered_samples.append(sample)
 
-        tables.append(
-            SnapshotMetricTable(
-                metric_label=metric_label,
-                source_stem=source_stem,
-                title=f"{source_stem}: {metric_label} snapshot",
-                rows=metric_rows,
+        if sample.family == SNAPSHOT_FAMILY_OTHER and sample.name not in unknown_seen:
+            unknown_seen.add(sample.name)
+            unknown_benchmarks.append(sample.name)
+
+    if not filtered_samples:
+        return [], unknown_benchmarks
+
+    metric_order = order_snapshot_metric_labels(filtered_samples)
+    metric_priority = {label: index for index, label in enumerate(metric_order)}
+
+    benchmark_first_seen: dict[tuple[str, str], int] = {}
+    aggregated_values: dict[tuple[str, str, str], List[float]] = {}
+
+    for sample in filtered_samples:
+        benchmark_key = (sample.family, sample.name)
+        if benchmark_key not in benchmark_first_seen:
+            benchmark_first_seen[benchmark_key] = len(benchmark_first_seen)
+
+        for metric_label, value in sample.metrics.items():
+            key = (sample.family, metric_label, sample.name)
+            aggregated_values.setdefault(key, []).append(value)
+
+    rows_by_group: dict[tuple[str, str], List[AggregatedSnapshotMetricRow]] = {}
+    for (family, metric_label, benchmark_name), values in aggregated_values.items():
+        rows_by_group.setdefault((family, metric_label), []).append(
+            AggregatedSnapshotMetricRow(
+                name=benchmark_name,
+                family=family,
+                value=aggregate_snapshot_values(values, aggregation_mode),
+                sample_count=len(values),
             )
         )
 
-    return tables
+    groups: List[SnapshotChartGroup] = []
+    for family in order_snapshot_families(filtered_samples):
+        family_metric_labels = sorted(
+            {
+                metric_label
+                for grouped_family, metric_label in rows_by_group
+                if grouped_family == family
+            },
+            key=lambda label: (
+                metric_priority.get(label, len(metric_priority)),
+                label,
+            ),
+        )
+
+        for metric_label in family_metric_labels:
+            rows = rows_by_group[(family, metric_label)]
+            rows.sort(key=lambda row: benchmark_first_seen[(row.family, row.name)])
+
+            groups.append(
+                SnapshotChartGroup(
+                    family=family,
+                    metric_label=metric_label,
+                    source_stem=source_stem,
+                    aggregation_mode=aggregation_mode,
+                    title=(
+                        f"{source_stem}: {family} {metric_label} snapshot "
+                        f"({aggregation_mode})"
+                    ),
+                    rows=rows,
+                )
+            )
+
+    return groups, unknown_benchmarks
 
 
 # ---------------------------------------------------------------------------
@@ -968,7 +1206,10 @@ def build_snapshot_metric_tables(
 # ---------------------------------------------------------------------------
 
 
-def chunk_rows(rows: Sequence[BenchmarkRow], chunk_size: int) -> List[List[BenchmarkRow]]:
+RowT = TypeVar("RowT")
+
+
+def chunk_rows(rows: Sequence[RowT], chunk_size: int) -> List[List[RowT]]:
     """Split table rows into chart-sized chunks.
 
     Long tables quickly become unreadable on GitHub. Chunking keeps output files
@@ -1030,17 +1271,23 @@ def build_compare_output_path(
 
 
 def build_snapshot_output_path(
-    table: SnapshotMetricTable,
+    table: SnapshotChartGroup,
     *,
     chunk_index: int,
     output_dir: Path,
     output_format: str,
 ) -> Path:
-    """Build a stable output path for one snapshot-mode chart chunk."""
+    """Build a stable output path for one snapshot-mode chart chunk.
+
+    Snapshot artifacts include the source stem, benchmark family, and metric so
+    they can be referenced directly from Markdown without requiring surrounding
+    prose to explain what each chart contains.
+    """
 
     source_part = sanitize_filename_component(table.source_stem)
+    family_part = sanitize_filename_component(table.family)
     metric_part = metric_filename_component(table.metric_label)
-    stem = f"{source_part}-{metric_part}"
+    stem = f"{source_part}-{family_part}-{metric_part}"
     if chunk_index > 0:
         stem += f"-part-{chunk_index+1}"
     return output_dir / f"{stem}.{output_format}"
@@ -1179,19 +1426,22 @@ def render_compare_chart(
 
 
 def render_snapshot_chart(
-    table: SnapshotMetricTable,
-    rows: Sequence[SnapshotMetricRow],
+    table: SnapshotChartGroup,
+    rows: Sequence[AggregatedSnapshotMetricRow],
     *,
     output_path: Path,
     title_prefix: str,
 ) -> None:
     """Render one horizontal single-snapshot chart for one metric.
 
-    Snapshot mode answers a simpler presentation question than compare mode:
-    what does this benchmark run look like for one metric right now?
+    Snapshot mode answers a different presentation question than compare mode:
+    what is the representative current state of one benchmark family for one
+    metric?
 
-    The chart therefore uses one bar per benchmark row and keeps the axis and
-    title explicitly tied to the metric being shown.
+    By the time this renderer runs, repeated raw samples have already been
+    aggregated. The chart therefore renders one representative value per
+    benchmark row and keeps the axis and title explicitly tied to one family
+    and one metric.
     """
 
     plt = load_matplotlib_pyplot()
@@ -1266,16 +1516,16 @@ def load_tables_from_csv(path: Path) -> List[ComparisonTable]:
     return parsed
 
 
-def load_snapshot_rows_from_raw(path: Path) -> List[SnapshotBenchmarkRow]:
-    """Load all parsable benchmark rows from one raw benchmark artifact.
+def load_snapshot_samples_from_raw(path: Path) -> List[SnapshotBenchmarkSample]:
+    """Load all parsable benchmark samples from one raw benchmark artifact.
 
     The file may contain ordinary `go test` preamble and epilogue lines such
     as `goos`, `pkg`, `PASS`, and `ok`. Only canonical benchmark result lines
-    are turned into rows. If no such rows are found, the function raises a
+    are turned into samples. If no such rows are found, the function raises a
     clear error instead of silently treating the file as a valid empty snapshot.
     """
 
-    rows: List[SnapshotBenchmarkRow] = []
+    rows: List[SnapshotBenchmarkSample] = []
     parse_errors: List[str] = []
 
     with path.open("r", encoding="utf-8") as fh:
@@ -1363,40 +1613,57 @@ def run_snapshot_mode(
     output_dir: Path,
     output_format: str,
     max_rows_per_chart: int,
+    snapshot_aggregate: str,
+    snapshot_include_compare: bool,
     title_prefix: str,
     verbose: bool,
 ) -> int:
-    """Generate metric-grouped charts from raw benchmark snapshot files."""
+    """Generate curated family-plus-metric charts from raw snapshot files."""
 
     generated = 0
 
     for input_path in input_paths:
         log(verbose, f"loading snapshot input {input_path}")
         try:
-            rows = load_snapshot_rows_from_raw(input_path)
+            samples = load_snapshot_samples_from_raw(input_path)
         except RuntimeError as exc:
             print(f"warning: {exc}", file=sys.stderr)
             continue
 
-        tables = build_snapshot_metric_tables(rows, source_stem=input_path.stem)
-        if not tables:
+        groups, unknown_benchmarks = build_snapshot_chart_groups(
+            samples,
+            source_stem=input_path.stem,
+            aggregation_mode=snapshot_aggregate,
+            include_compare=snapshot_include_compare,
+        )
+        if unknown_benchmarks:
+            preview = ", ".join(unknown_benchmarks[:3])
+            if len(unknown_benchmarks) > 3:
+                preview += ", ..."
             print(
-                f"warning: no metric groups could be built from snapshot input {input_path}",
+                f"warning: snapshot input {input_path} contains unclassified "
+                f"benchmark families grouped under 'other': {preview}",
+                file=sys.stderr,
+            )
+
+        if not groups:
+            print(
+                f"warning: no snapshot chart groups could be built from {input_path}",
                 file=sys.stderr,
             )
             continue
 
-        for table in tables:
-            chunks = chunk_rows(table.rows, max_rows_per_chart)
+        for group in groups:
+            chunks = chunk_rows(group.rows, max_rows_per_chart)
             for chunk_index, chunk in enumerate(chunks):
                 output_path = build_snapshot_output_path(
-                    table,
+                    group,
                     chunk_index=chunk_index,
                     output_dir=output_dir,
                     output_format=output_format,
                 )
                 render_snapshot_chart(
-                    table,
+                    group,
                     chunk,
                     output_path=output_path,
                     title_prefix=title_prefix,
@@ -1441,7 +1708,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     log(
         args.verbose,
-        f"mode={args.mode} inputs={len(input_paths)} output_dir={output_dir}",
+        (
+            f"mode={args.mode} inputs={len(input_paths)} output_dir={output_dir} "
+            f"snapshot_aggregate={args.snapshot_aggregate} "
+            f"snapshot_include_compare={args.snapshot_include_compare}"
+        ),
     )
 
     try:
@@ -1460,6 +1731,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 output_dir=output_dir,
                 output_format=args.format,
                 max_rows_per_chart=args.max_rows_per_chart,
+                snapshot_aggregate=args.snapshot_aggregate,
+                snapshot_include_compare=args.snapshot_include_compare,
                 title_prefix=args.title_prefix,
                 verbose=args.verbose,
             )
