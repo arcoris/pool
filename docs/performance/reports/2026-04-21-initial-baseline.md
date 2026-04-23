@@ -1,6 +1,23 @@
+<div align="center">
+
 # 2026-04-21 Initial Baseline Snapshot
 
-## Contents
+**Curated current-state report for the repository's maintained benchmark surface, built from one repeated raw snapshot and summarized into family-level charts.**
+
+[![Performance Root](https://img.shields.io/badge/Performance-Overview-0F766E?style=flat)](../README.md)
+[![Reports Contract](https://img.shields.io/badge/Reports-Contract-1D4ED8?style=flat)](./README.md)
+[![Methodology](https://img.shields.io/badge/Workflow-Methodology-0F172A?style=flat)](../methodology.md)
+[![Matrix](https://img.shields.io/badge/Suite-Benchmark%20Matrix-B45309?style=flat)](../benchmark-matrix.md)
+
+[Report Map](#report-map) · [Question](#question) · [Environment](#environment) · [Evidence](#evidence) · [Findings](#findings) · [Interpretation](#interpretation) · [Follow-up](#follow-up)
+
+Snapshot only · No revision comparison · Charts summarize repeated raw samples
+
+**Related docs:** [Performance overview](../README.md) · [Methodology](../methodology.md) · [Benchmark matrix](../benchmark-matrix.md) · [Interpretation guide](../interpretation-guide.md)
+
+</div>
+
+## Report map
 
 - [Question](#question)
 - [Scope](#scope)
@@ -428,3 +445,12 @@ What this report does not establish:
 - If one family becomes the focus of a deeper investigation, capture targeted
   CPU or memory profiles for that family and pair them with a comparison report
   instead of widening this snapshot report further.
+
+## Continue with
+
+| If your next question is... | Read |
+| --- | --- |
+| how this snapshot should have been collected | [Benchmark Methodology](../methodology.md) |
+| how to interpret the chart and metric claims narrowly | [Benchmark Interpretation Guide](../interpretation-guide.md) |
+| which benchmark families this report is built from | [Benchmark Matrix](../benchmark-matrix.md) |
+| how to write the next repository report | [Reports Contract](./README.md) |

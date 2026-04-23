@@ -1,19 +1,30 @@
+<div align="center">
+
 # Benchmark Interpretation Guide
 
-## Contents
+**Reading rules for turning benchmark artifacts, charts, and profiles into narrow claims that fit the repository's evidence model.**
 
-- [Purpose](#purpose)
-- [Interpretation Principles](#interpretation-principles)
-- [Reading Execution Classes](#reading-execution-classes)
-- [Reading Core Metrics](#reading-core-metrics)
-- [Reading Benchmark Categories](#reading-benchmark-categories)
-- [Backend Baselines Versus Package Baselines](#backend-baselines-versus-package-baselines)
-- [Discussing Regressions](#discussing-regressions)
-- [Discussing Improvements](#discussing-improvements)
-- [What Reports Must Not Claim](#what-reports-must-not-claim)
-- [Combining Benchmarks and Profiles](#combining-benchmarks-and-profiles)
-- [Reporting Language](#reporting-language)
-- [Report Author Checklist](#report-author-checklist)
+[![Performance Root](https://img.shields.io/badge/Performance-Overview-0F766E?style=flat)](./README.md)
+[![Methodology](https://img.shields.io/badge/Workflow-Methodology-1D4ED8?style=flat)](./methodology.md)
+[![Matrix](https://img.shields.io/badge/Suite-Benchmark%20Matrix-0F172A?style=flat)](./benchmark-matrix.md)
+[![Reports](https://img.shields.io/badge/Reports-Contract-B45309?style=flat)](./reports/README.md)
+
+[Use This Guide](#use-this-guide-when) · [Interpretation Principles](#interpretation-principles) · [Execution Classes](#reading-execution-classes) · [Core Metrics](#reading-core-metrics) · [Reporting Language](#reporting-language) · [Checklist](#report-author-checklist)
+
+Narrow claims only · Comparison before conclusion · Profiles explain, benchmarks measure
+
+**Related docs:** [Performance overview](./README.md) · [Methodology](./methodology.md) · [Benchmark matrix](./benchmark-matrix.md) · [Reports contract](./reports/README.md)
+
+</div>
+
+## Use this guide when
+
+| If you want to... | Start here | Then continue with |
+| --- | --- | --- |
+| interpret a benchmark result or chart without overclaiming | [Interpretation Principles](#interpretation-principles) | [Reading Execution Classes](#reading-execution-classes), [Reading Core Metrics](#reading-core-metrics) |
+| write a report narrative from benchmark artifacts | [Reporting Language](#reporting-language) | [Report Author Checklist](#report-author-checklist), [Reports Contract](./reports/README.md) |
+| understand what each benchmark category can and cannot prove | [Reading Benchmark Categories](#reading-benchmark-categories) | [Backend Baselines Versus Package Baselines](#backend-baselines-versus-package-baselines) |
+| combine profile evidence with benchmark evidence correctly | [Combining Benchmarks and Profiles](#combining-benchmarks-and-profiles) | [Methodology](./methodology.md) |
 
 ## Purpose
 
@@ -232,3 +243,11 @@ Avoid language such as:
 - Show which metrics changed.
 - Distinguish measurement from explanation.
 - Keep conclusions no broader than the evidence.
+
+## Continue with
+
+| If your next question is... | Read |
+| --- | --- |
+| how the evidence should be collected in the first place | [Benchmark Methodology](./methodology.md) |
+| which maintained benchmark families the claim should reference | [Benchmark Matrix](./benchmark-matrix.md) |
+| how to structure a committed report around those claims | [Reports Contract](./reports/README.md) |

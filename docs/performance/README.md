@@ -1,13 +1,31 @@
+<div align="center">
+
 # Performance Documentation
 
-## Contents
+**Navigation root for benchmark methodology, maintained suite definitions, interpretation rules, and curated reports.**
 
-- [Purpose](#purpose)
-- [Artifact Layout](#artifact-layout)
-- [Initial Snapshot Overview](#initial-snapshot-overview)
-- [Document Map](#document-map)
-- [Current Reports](#current-reports)
-- [Related Package Documentation](#related-package-documentation)
+[![Docs Index](https://img.shields.io/badge/Docs-Index-0F766E?style=flat)](../index.md)
+[![Methodology](https://img.shields.io/badge/Workflow-Methodology-1D4ED8?style=flat)](./methodology.md)
+[![Matrix](https://img.shields.io/badge/Suite-Benchmark%20Matrix-0F172A?style=flat)](./benchmark-matrix.md)
+[![Reports](https://img.shields.io/badge/Reports-Contract-B45309?style=flat)](./reports/README.md)
+
+[Start Here](#start-here) · [Artifact Layout](#artifact-layout) · [Initial Snapshot](#initial-snapshot-overview) · [Document Map](#document-map) · [Current Reports](#current-reports)
+
+Evidence workflow · Artifact layout · Narrow interpretation · Curated reports over raw artifacts
+
+**Read by task:** [Collect evidence](./methodology.md) · [Know the suite](./benchmark-matrix.md) · [Interpret results](./interpretation-guide.md) · [Write reports](./reports/README.md)
+
+</div>
+
+## Start here
+
+| If you want to... | Read first | Then continue with |
+| --- | --- | --- |
+| understand the performance subsystem at a glance | [Purpose](#purpose) | [Document Map](#document-map), [Current Reports](#current-reports) |
+| collect fresh benchmark artifacts correctly | [Benchmark Methodology](./methodology.md) | [Benchmark Matrix](./benchmark-matrix.md) |
+| understand which benchmark families are maintained | [Benchmark Matrix](./benchmark-matrix.md) | [Interpretation Guide](./interpretation-guide.md) |
+| read or write a repository-grade performance report | [Reports Contract](./reports/README.md) | [Current Reports](#current-reports), [Interpretation Guide](./interpretation-guide.md) |
+| jump from package docs into performance docs | [Document Map](#document-map) | [Architecture](../architecture.md), [Lifecycle](../lifecycle.md) when runtime semantics matter |
 
 ## Purpose
 
@@ -101,8 +119,11 @@ parallel cases.
 
 - [2026-04-21 Initial Baseline](./reports/2026-04-21-initial-baseline.md)
 
-## Related Package Documentation
+## Continue with
 
-- [Architecture](../architecture.md)
-- [Lifecycle](../lifecycle.md)
-- [Non-goals](../non-goals.md)
+| If your next question is... | Read |
+| --- | --- |
+| how to run and capture artifacts correctly | [Benchmark Methodology](./methodology.md) |
+| which benchmark families and execution classes are canonical | [Benchmark Matrix](./benchmark-matrix.md) |
+| how to describe results without overclaiming | [Benchmark Interpretation Guide](./interpretation-guide.md) |
+| how performance guidance connects back to the package model | [Architecture](../architecture.md), [Lifecycle](../lifecycle.md), [Non-goals](../non-goals.md) |

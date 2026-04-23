@@ -1,20 +1,31 @@
+<div align="center">
+
 # Benchmark Methodology
 
-## Contents
+**Operational guide for collecting, comparing, profiling, and charting benchmark evidence in a repeatable repository-approved way.**
 
-- [Purpose](#purpose)
-- [Canonical Tooling](#canonical-tooling)
-- [Toolchain Baseline](#toolchain-baseline)
-- [Runtime Modes](#runtime-modes)
-- [Shell Suite Selectors](#shell-suite-selectors)
-- [Artifact Layout](#artifact-layout)
-- [Scripted Workflow](#scripted-workflow)
-- [Run Intents](#run-intents)
-- [Environment Control](#environment-control)
-- [Comparison Policy](#comparison-policy)
-- [Parallel CPU Matrix Policy](#parallel-cpu-matrix-policy)
-- [Profile Policy](#profile-policy)
-- [Methodology Changes](#methodology-changes)
+[![Performance Root](https://img.shields.io/badge/Performance-Overview-0F766E?style=flat)](./README.md)
+[![Matrix](https://img.shields.io/badge/Suite-Benchmark%20Matrix-1D4ED8?style=flat)](./benchmark-matrix.md)
+[![Interpretation](https://img.shields.io/badge/Read-Interpretation-0F172A?style=flat)](./interpretation-guide.md)
+[![Reports](https://img.shields.io/badge/Reports-Contract-B45309?style=flat)](./reports/README.md)
+
+[Use This Guide](#use-this-guide-when) · [Canonical Tooling](#canonical-tooling) · [Artifact Layout](#artifact-layout) · [Scripted Workflow](#scripted-workflow) · [Comparison Policy](#comparison-policy)
+
+Repeatable collection · Stable artifact layout · Comparison discipline · Profile policy
+
+**Related docs:** [Performance overview](./README.md) · [Benchmark matrix](./benchmark-matrix.md) · [Interpretation guide](./interpretation-guide.md) · [Reports contract](./reports/README.md)
+
+</div>
+
+## Use this guide when
+
+| If you want to... | Start here | Then continue with |
+| --- | --- | --- |
+| collect a current-state benchmark snapshot | [Scripted Workflow](#scripted-workflow) | [Artifact Layout](#artifact-layout), [Reports Contract](./reports/README.md) |
+| compare two revisions correctly | [Comparison Policy](#comparison-policy) | [Interpretation Guide](./interpretation-guide.md), [Current report examples](./reports/2026-04-21-initial-baseline.md) |
+| understand which scripts and directories are canonical | [Canonical Tooling](#canonical-tooling) | [Artifact Layout](#artifact-layout), [Benchmark scripts directory](../../bench/scripts/) |
+| profile one benchmark family after a measured change | [Profile Policy](#profile-policy) | [Interpretation Guide](./interpretation-guide.md) |
+| update methodology without breaking historical comparability | [Methodology Changes](#methodology-changes) | [Benchmark Matrix](./benchmark-matrix.md), [Reports Contract](./reports/README.md) |
 
 ## Purpose
 
@@ -380,3 +391,11 @@ When changing methodology:
 - avoid changing multiple experimental variables at once unless that is the
   subject of the investigation;
 - keep script entry points and artifact locations stable when possible.
+
+## Continue with
+
+| If your next question is... | Read |
+| --- | --- |
+| which benchmark families and execution classes are maintained | [Benchmark Matrix](./benchmark-matrix.md) |
+| how to read the results you just collected | [Benchmark Interpretation Guide](./interpretation-guide.md) |
+| how to turn artifacts into a committed report | [Reports Contract](./reports/README.md) |

@@ -1,21 +1,30 @@
+<div align="center">
+
 # Benchmark Matrix
 
-## Contents
+**Stable inventory of maintained benchmark families, execution classes, and promotion rules for the performance layer.**
 
-- [Purpose](#purpose)
-- [Selection Principles](#selection-principles)
-- [Execution Classes](#execution-classes)
-- [Benchmark Groups](#benchmark-groups)
-- [1. Backend Baselines](#1-backend-baselines)
-- [2. Package Baselines](#2-package-baselines)
-- [3. Lifecycle Paths](#3-lifecycle-paths)
-- [4. Value Shapes](#4-value-shapes)
-- [5. Parallel Execution](#5-parallel-execution)
-- [6. Comparison Surfaces and Metrics](#6-comparison-surfaces-and-metrics)
-- [Canonical Suite](#canonical-suite)
-- [Promotion Rules](#promotion-rules)
-- [Relationship to Reports](#relationship-to-reports)
-- [Package Boundary](#package-boundary)
+[![Performance Root](https://img.shields.io/badge/Performance-Overview-0F766E?style=flat)](./README.md)
+[![Methodology](https://img.shields.io/badge/Workflow-Methodology-1D4ED8?style=flat)](./methodology.md)
+[![Interpretation](https://img.shields.io/badge/Read-Interpretation-0F172A?style=flat)](./interpretation-guide.md)
+[![Current Report](https://img.shields.io/badge/Report-Initial%20Baseline-B45309?style=flat)](./reports/2026-04-21-initial-baseline.md)
+
+[Use This Guide](#use-this-guide-when) · [Selection Principles](#selection-principles) · [Execution Classes](#execution-classes) · [Benchmark Groups](#benchmark-groups) · [Canonical Suite](#canonical-suite) · [Promotion Rules](#promotion-rules)
+
+Maintained suite vocabulary · Execution-class discipline · Promotion rules over ad hoc probes
+
+**Related docs:** [Performance overview](./README.md) · [Methodology](./methodology.md) · [Interpretation guide](./interpretation-guide.md) · [Reports contract](./reports/README.md)
+
+</div>
+
+## Use this guide when
+
+| If you want to... | Start here | Then continue with |
+| --- | --- | --- |
+| see which benchmark families are part of the maintained suite | [Benchmark Groups](#benchmark-groups) | [Canonical Suite](#canonical-suite) |
+| understand the meaning of controlled serial, realistic serial, and parallel cases | [Execution Classes](#execution-classes) | [Interpretation Guide](./interpretation-guide.md) |
+| decide whether a new benchmark belongs in the canonical suite | [Selection Principles](#selection-principles) | [Promotion Rules](#promotion-rules) |
+| write a report that cites only the necessary benchmark families | [Relationship to Reports](#relationship-to-reports) | [Reports Contract](./reports/README.md), [Interpretation Guide](./interpretation-guide.md) |
 
 ## Purpose
 
@@ -267,3 +276,11 @@ It MUST NOT be treated as a generic template for unrelated pooling products.
 A specialized memory or buffer-oriented package would need a different matrix,
 because requested capacity, size classes, and retained-capacity policy are
 different performance questions from generic typed temporary-object reuse.
+
+## Continue with
+
+| If your next question is... | Read |
+| --- | --- |
+| how to collect the cases in this matrix correctly | [Benchmark Methodology](./methodology.md) |
+| how to interpret the cases without overclaiming | [Benchmark Interpretation Guide](./interpretation-guide.md) |
+| how the matrix appears in a real repository report | [2026-04-21 Initial Baseline](./reports/2026-04-21-initial-baseline.md) |

@@ -1,13 +1,30 @@
+<div align="center">
+
 # Performance Reports
 
-## Contents
+**Contract for committed performance reports: what belongs here, how evidence should be linked, and how report files should be structured.**
 
-- [What a Report Is](#what-a-report-is)
-- [What Does Not Belong Here](#what-does-not-belong-here)
-- [Chart Usage in Reports](#chart-usage-in-reports)
-- [Relative Paths for Embedded Charts](#relative-paths-for-embedded-charts)
-- [Recommended Report Structure](#recommended-report-structure)
-- [Naming](#naming)
+[![Performance Root](https://img.shields.io/badge/Performance-Overview-0F766E?style=flat)](../README.md)
+[![Methodology](https://img.shields.io/badge/Workflow-Methodology-1D4ED8?style=flat)](../methodology.md)
+[![Interpretation](https://img.shields.io/badge/Read-Interpretation-0F172A?style=flat)](../interpretation-guide.md)
+[![Current Report](https://img.shields.io/badge/Report-Initial%20Baseline-B45309?style=flat)](./2026-04-21-initial-baseline.md)
+
+[Use This Guide](#use-this-guide-when) · [What a Report Is](#what-a-report-is) · [Chart Usage](#chart-usage-in-reports) · [Report Structure](#recommended-report-structure) · [Naming](#naming)
+
+Curated narrative layer · Raw artifacts remain primary · Charts support, not replace, evidence
+
+**Related docs:** [Performance overview](../README.md) · [Methodology](../methodology.md) · [Interpretation guide](../interpretation-guide.md)
+
+</div>
+
+## Use this guide when
+
+| If you want to... | Start here | Then continue with |
+| --- | --- | --- |
+| write a new committed performance report | [What a Report Is](#what-a-report-is) | [Recommended Report Structure](#recommended-report-structure), [Naming](#naming) |
+| decide whether content belongs in a committed report or should stay local | [What Does Not Belong Here](#what-does-not-belong-here) | [Performance overview](../README.md) |
+| embed charts and artifact links correctly from a report file | [Chart Usage in Reports](#chart-usage-in-reports) | [Relative Paths for Embedded Charts](#relative-paths-for-embedded-charts) |
+| see what a real report looks like in this repository | [2026-04-21 Initial Baseline](./2026-04-21-initial-baseline.md) | [Interpretation guide](../interpretation-guide.md) |
 
 This directory contains curated, human-authored performance reports for
 `arcoris.dev/pool`.
@@ -111,3 +128,11 @@ YYYY-MM-DD-topic.md
 Example:
 
 - [`2026-04-21-initial-baseline.md`](./2026-04-21-initial-baseline.md)
+
+## Continue with
+
+| If your next question is... | Read |
+| --- | --- |
+| how the underlying benchmark artifacts should be collected | [Benchmark Methodology](../methodology.md) |
+| how report claims should be phrased and limited | [Benchmark Interpretation Guide](../interpretation-guide.md) |
+| what a real repository report currently looks like | [2026-04-21 Initial Baseline](./2026-04-21-initial-baseline.md) |

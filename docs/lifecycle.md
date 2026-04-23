@@ -1,19 +1,30 @@
+<div align="center">
+
 # Pool Lifecycle
 
-## Contents
+**Normative guide to ownership transfer, return-path order, and lifecycle invariants for the public `Get` / `Put` runtime.**
 
-- [Purpose](#purpose)
-- [Scope](#scope)
-- [Lifecycle Overview](#lifecycle-overview)
-- [Acquisition Path](#acquisition-path)
-- [Return Path](#return-path)
-- [Why Reset Happens on Put](#why-reset-happens-on-put)
-- [Why Reuse Is Evaluated Before Reset](#why-reuse-is-evaluated-before-reset)
-- [Ownership Model](#ownership-model)
-- [Concurrency Implications](#concurrency-implications)
-- [Lifecycle Hooks](#lifecycle-hooks)
-- [Lifecycle Invariants](#lifecycle-invariants)
-- [Summary](#summary)
+[![Docs Index](https://img.shields.io/badge/Docs-Index-0F766E?style=flat)](./index.md)
+[![Architecture](https://img.shields.io/badge/Structure-Architecture-1D4ED8?style=flat)](./architecture.md)
+[![Non-goals](https://img.shields.io/badge/Scope-Non--goals-0F172A?style=flat)](./non-goals.md)
+[![Package Contract](https://img.shields.io/badge/Package-doc.go-B45309?style=flat)](../doc.go)
+
+[Use This Guide](#use-this-guide-when) · [Lifecycle Overview](#lifecycle-overview) · [Return Path](#return-path) · [Ownership](#ownership-model) · [Invariants](#lifecycle-invariants)
+
+Normative semantics · Ownership ends at `Put` · Canonical `Reuse -> OnDrop/Reset -> backend` order
+
+**Related docs:** [Docs index](./index.md) · [Architecture](./architecture.md) · [Non-goals](./non-goals.md) · [Contributing](../CONTRIBUTING.md)
+
+</div>
+
+## Use this guide when
+
+| If you want to... | Start here | Then continue with |
+| --- | --- | --- |
+| understand the public runtime contract end to end | [Lifecycle Overview](#lifecycle-overview) | [Ownership Model](#ownership-model), [Lifecycle Invariants](#lifecycle-invariants) |
+| change `Get` / `Put` behavior or callback order | [Return Path](#return-path) | [Lifecycle Hooks](#lifecycle-hooks), [Architecture](./architecture.md) |
+| clarify post-`Put` ownership or concurrency assumptions | [Ownership Model](#ownership-model) | [Concurrency Implications](#concurrency-implications), [Security](../SECURITY.md) if the concern may be security-relevant |
+| understand what the lifecycle guide does not decide | [Purpose](#purpose) | [Non-goals](./non-goals.md), [Architecture](./architecture.md) |
 
 ## Purpose
 
@@ -270,3 +281,11 @@ The lifecycle model of `arcoris.dev/pool` is intentionally small and explicit.
 - Rejected values are dropped without entering backend storage.
 
 That model is the semantic core of the package and should remain stable.
+
+## Continue with
+
+| If your next question is... | Read |
+| --- | --- |
+| where these semantics live in the repository structure | [Architecture](./architecture.md) |
+| whether a proposed change is still in product scope | [Non-goals](./non-goals.md) |
+| how to prepare a repository change or PR | [Contributing](../CONTRIBUTING.md) |

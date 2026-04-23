@@ -9,7 +9,7 @@
 [![Package Contract](https://img.shields.io/badge/Package-doc.go-0F172A?style=flat)](doc.go)
 [![Performance](https://img.shields.io/badge/Evidence-Benchmarks%20%26%20Reports-B45309?style=flat)](docs/performance/README.md)
 
-[Quick Start](#quick-start) · [Core Model](#core-model) · [Intended Use](#intended-use) · [Docs Index](docs/index.md) · [Performance](docs/performance/README.md)
+[Quick Start](#quick-start) · [Core Model](#core-model) · [Intended Use](#intended-use) · [Docs Index](docs/index.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Performance](docs/performance/README.md)
 
 Policy-driven reuse · Explicit ownership transfer · Canonical return-path semantics · Benchmark-first engineering
 
@@ -34,6 +34,7 @@ instead of turning temporary-object reuse into a larger framework.
 | learn the exact ownership and return-path contract | [Lifecycle guide](docs/lifecycle.md) |
 | understand repository structure and boundaries | [Architecture guide](docs/architecture.md) |
 | see what the package intentionally excludes | [Non-goals guide](docs/non-goals.md) |
+| find contributor, reporting, or repository policy paths | [Documentation](#documentation) |
 | inspect benchmarks, charts, and curated reports | [Performance overview](docs/performance/README.md) |
 
 ## Why it exists
@@ -176,6 +177,10 @@ The package also does not promise:
 | --- | --- | --- |
 | [Docs index](docs/index.md) | you want the repository map first | the best entry point into the documentation set |
 | [Package contract](doc.go) | you want the Go-facing package contract | exported API intent and runtime model |
+| [Contributing guide](CONTRIBUTING.md) | you want contributor workflow and validation expectations | PR shape, validation, docs sync, and performance evidence rules |
+| [Security policy](SECURITY.md) | you need the repository's vulnerability reporting and security scope guidance | private reporting path, supported versions, and repo-specific security boundaries |
+| [Code of Conduct](CODE_OF_CONDUCT.md) | you want the repository's collaboration and moderation baseline | expected behavior, reporting path, and review standards |
+| [Third-Party Notices](THIRD_PARTY_NOTICES.md) | you need attribution and third-party notice status | bundled or adapted upstream material and pinned tooling references |
 | [Architecture guide](docs/architecture.md) | you want the structural view | layers, boundaries, repository layout |
 | [Lifecycle guide](docs/lifecycle.md) | you need precise runtime semantics | ownership, acquisition, return-path invariants |
 | [Non-goals guide](docs/non-goals.md) | you are evaluating scope | explicit exclusions and product boundaries |

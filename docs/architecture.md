@@ -1,20 +1,30 @@
+<div align="center">
+
 # Architecture
 
-## Contents
+**Structural guide to repository layout, dependency direction, layer boundaries, and where each responsibility lives.**
 
-- [Overview](#overview)
-- [Document Map](#document-map)
-- [Repository Structure](#repository-structure)
-- [Dependency Direction](#dependency-direction)
-- [Layered Design](#layered-design)
-- [Runtime Composition](#runtime-composition)
-- [Performance Documentation](#performance-documentation)
-- [Why the Backend Is Internal](#why-the-backend-is-internal)
-- [File-Level Responsibilities](#file-level-responsibilities)
-- [Testing Structure](#testing-structure)
-- [Benchmark Source Layout](#benchmark-source-layout)
-- [Architectural Change Boundaries](#architectural-change-boundaries)
-- [Summary](#summary)
+[![Docs Index](https://img.shields.io/badge/Docs-Index-0F766E?style=flat)](./index.md)
+[![Lifecycle](https://img.shields.io/badge/Contract-Lifecycle-1D4ED8?style=flat)](./lifecycle.md)
+[![Non-goals](https://img.shields.io/badge/Scope-Non--goals-0F172A?style=flat)](./non-goals.md)
+[![Performance](https://img.shields.io/badge/Evidence-Performance-B45309?style=flat)](./performance/README.md)
+
+[Use This Guide](#use-this-guide-when) · [Repository Structure](#repository-structure) · [Dependency Direction](#dependency-direction) · [Runtime Composition](#runtime-composition) · [Change Boundaries](#architectural-change-boundaries)
+
+Repository map · Layered design · Internal/public boundaries · Benchmark workspace context
+
+**Related docs:** [Docs index](./index.md) · [Package contract](../doc.go) · [Lifecycle](./lifecycle.md) · [Non-goals](./non-goals.md) · [Contributing](../CONTRIBUTING.md)
+
+</div>
+
+## Use this guide when
+
+| If you want to... | Start here | Then continue with |
+| --- | --- | --- |
+| understand where code, docs, and benchmark artifacts live | [Repository Structure](#repository-structure) | [File-Level Responsibilities](#file-level-responsibilities), [Testing Structure](#testing-structure) |
+| understand which layer owns which responsibility | [Layered Design](#layered-design) | [Runtime Composition](#runtime-composition), [Why the Backend Is Internal](#why-the-backend-is-internal) |
+| work on dependencies or package boundaries | [Dependency Direction](#dependency-direction) | [Architectural Change Boundaries](#architectural-change-boundaries), [Non-goals](./non-goals.md) |
+| navigate from structure to semantics or benchmark docs | [Document Map](#document-map) | [Lifecycle](./lifecycle.md), [Performance overview](./performance/README.md) |
 
 ## Overview
 
@@ -36,13 +46,15 @@ primary scope-boundary document. Those responsibilities belong to
 
 ## Document Map
 
-Read the documentation in the following order:
+Use the documentation in the following order:
 
-- [Package overview](../doc.go) ([`doc.go`](../doc.go)) — package contract for Go users and pkg.go.dev
-- [Architecture guide](./architecture.md) ([`docs/architecture.md`](./architecture.md)) — repository structure, layering, and dependency boundaries
-- [Lifecycle guide](./lifecycle.md) ([`docs/lifecycle.md`](./lifecycle.md)) — value lifecycle, ownership, and return-path semantics
-- [Non-goals guide](./non-goals.md) ([`docs/non-goals.md`](./non-goals.md)) — explicit scope boundaries and proposal decision rules
-- [Performance overview](./performance/README.md) ([`docs/performance/README.md`](./performance/README.md)) — entry point for benchmark methodology, matrix, and interpretation rules
+| Document | Use it for |
+| --- | --- |
+| [Package contract (`doc.go`)](../doc.go) | Go-facing package contract and `pkg.go.dev` overview |
+| [Architecture guide](./architecture.md) | repository structure, layering, and dependency boundaries |
+| [Lifecycle guide](./lifecycle.md) | value lifecycle, ownership, and return-path semantics |
+| [Non-goals guide](./non-goals.md) | explicit scope boundaries and proposal decision rules |
+| [Performance overview](./performance/README.md) | benchmark methodology, suite inventory, interpretation rules, and reports |
 
 ## Repository Structure
 
@@ -426,3 +438,12 @@ The architecture of `arcoris.dev/pool` is intentionally small and layered.
 
 That separation keeps the package easy to read, easy to test, and easier to
 change conservatively over time.
+
+## Continue with
+
+| If your next question is... | Read |
+| --- | --- |
+| how the public runtime behaves semantically | [Lifecycle](./lifecycle.md) |
+| whether a structural change is still in product scope | [Non-goals](./non-goals.md) |
+| how benchmarks and reports fit into the repository layout | [Performance overview](./performance/README.md) |
+| how to turn a structural change into a contributor-ready PR | [Contributing](../CONTRIBUTING.md) |

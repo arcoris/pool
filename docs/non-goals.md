@@ -1,25 +1,30 @@
+<div align="center">
+
 # Non-Goals
 
-## Contents
+**Boundary guide for what `arcoris.dev/pool` intentionally does not become, even when adjacent ideas sound useful.**
 
-- [Purpose](#purpose)
-- [Role of This Document](#role-of-this-document)
-- [Core Product Identity](#core-product-identity)
-- [Primary Scope Exclusions](#primary-scope-exclusions)
-- [1. Not a General Resource Manager](#1-not-a-general-resource-manager)
-- [2. Not a Borrow or Lease Tracking Framework](#2-not-a-borrow-or-lease-tracking-framework)
-- [3. Not a Stable Object Inventory or Cache](#3-not-a-stable-object-inventory-or-cache)
-- [4. Not a Queue, Scheduler, or Coordination Primitive](#4-not-a-queue-scheduler-or-coordination-primitive)
-- [5. Not a Validation Framework](#5-not-a-validation-framework)
-- [6. Not a Domain-Specific Factory or Object Framework](#6-not-a-domain-specific-factory-or-object-framework)
-- [7. Not an Interface-Driven Type Hierarchy](#7-not-an-interface-driven-type-hierarchy)
-- [8. Not a Specialized Memory or Buffer Pool](#8-not-a-specialized-memory-or-buffer-pool)
-- [9. Not a Rich Pooling Framework](#9-not-a-rich-pooling-framework)
-- [10. Not a Promise of Zero Allocations or Public Backend Pluggability](#10-not-a-promise-of-zero-allocations-or-public-backend-pluggability)
-- [Allowed Extensions](#allowed-extensions)
-- [Scope Changes](#scope-changes)
-- [Practical Decision Rule](#practical-decision-rule)
-- [Summary](#summary)
+[![Docs Index](https://img.shields.io/badge/Docs-Index-0F766E?style=flat)](./index.md)
+[![Lifecycle](https://img.shields.io/badge/Contract-Lifecycle-1D4ED8?style=flat)](./lifecycle.md)
+[![Architecture](https://img.shields.io/badge/Structure-Architecture-0F172A?style=flat)](./architecture.md)
+[![Design Proposal](https://img.shields.io/badge/Route-Design%20Proposal-B45309?style=flat)](../.github/ISSUE_TEMPLATE/03-design-proposal.yml)
+
+[Use This Guide](#use-this-guide-when) · [Product Identity](#core-product-identity) · [Scope Exclusions](#primary-scope-exclusions) · [Allowed Extensions](#allowed-extensions) · [Decision Rule](#practical-decision-rule)
+
+Scope boundary document · Small public runtime · Explicit exclusions against framework growth
+
+**Related docs:** [Docs index](./index.md) · [Lifecycle](./lifecycle.md) · [Architecture](./architecture.md) · [Contributing](../CONTRIBUTING.md)
+
+</div>
+
+## Use this guide when
+
+| If you want to... | Start here | Then continue with |
+| --- | --- | --- |
+| decide whether a feature idea fits the product | [Core Product Identity](#core-product-identity) | [Primary Scope Exclusions](#primary-scope-exclusions), [Practical Decision Rule](#practical-decision-rule) |
+| evaluate a proposal that adds tracking, inventory, validation, or coordination semantics | [Primary Scope Exclusions](#primary-scope-exclusions) | [Scope Changes](#scope-changes), [Design proposal form](../.github/ISSUE_TEMPLATE/03-design-proposal.yml) |
+| distinguish normal package evolution from product expansion | [Allowed Extensions](#allowed-extensions) | [Practical Decision Rule](#practical-decision-rule), [Contributing](../CONTRIBUTING.md) |
+| understand which document owns semantics versus scope | [Role of This Document](#role-of-this-document) | [Lifecycle](./lifecycle.md), [Architecture](./architecture.md) |
 
 ## Purpose
 
@@ -317,3 +322,12 @@ It does not exist to solve every adjacent lifecycle or pooling problem.
 
 The package remains coherent precisely because these boundaries are explicit and
 conservative.
+
+## Continue with
+
+| If your next question is... | Read |
+| --- | --- |
+| how the accepted package model behaves at runtime | [Lifecycle](./lifecycle.md) |
+| where those boundaries appear in the repository structure | [Architecture](./architecture.md) |
+| how to open a scoped proposal or contribution | [Contributing](../CONTRIBUTING.md) |
+| where to route a product-shaping change request | [Design proposal form](../.github/ISSUE_TEMPLATE/03-design-proposal.yml) |
