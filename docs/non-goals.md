@@ -33,10 +33,10 @@ changes, not as routine package evolution.
 
 The documentation set is intentionally split by responsibility:
 
-- `doc.go` explains the package contract for Go users;
-- `docs/architecture.md` explains repository structure and layering;
-- `docs/lifecycle.md` defines lifecycle and ownership semantics;
-- `docs/non-goals.md` defines the scope boundaries of the product.
+- [Package contract (`doc.go`)](../doc.go) explains the package contract for Go users;
+- [Architecture guide](./architecture.md) explains repository structure and layering;
+- [Lifecycle guide](./lifecycle.md) defines lifecycle and ownership semantics;
+- [Non-goals guide](./non-goals.md) defines the scope boundaries of the product.
 
 This file is therefore the main home of exclusions. Other documents may mention
 boundaries briefly for context, but the detailed exclusion logic belongs here.

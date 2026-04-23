@@ -24,8 +24,8 @@ temporary mutable values. The package keeps the runtime surface narrow, makes
 ownership transfer explicit, and preserves a fixed return-path order for reuse
 admission, drop observation, reset, and storage.
 
-Use this page as the repository-facing map. Use [`../doc.go`](../doc.go) as
-the Go-facing package contract.
+Use this page as the repository-facing map. Use the
+[package contract (`doc.go`)](../doc.go) as the Go-facing package contract.
 
 ## Read by goal
 
@@ -64,9 +64,9 @@ the Go-facing package contract.
 
 | Area | Purpose |
 | --- | --- |
-| `.` | public package code, tests, and benchmarks |
-| `internal/backend/` | storage implementation behind the public runtime |
-| `internal/testutil/` | shared helpers for tests and benchmarks |
-| `docs/` | repository-facing documentation set |
-| `bench/scripts/` | benchmark collection, comparison, profiling, and plotting automation |
-| `bench/charts/` | generated SVG charts used by reports and README surfaces |
+| [Repository root](../) | public package code, tests, and benchmarks |
+| [Internal backend directory](../internal/backend/) | storage implementation behind the public runtime |
+| [Test utilities directory](../internal/testutil/) | shared helpers for tests and benchmarks |
+| [Documentation directory](./) | repository-facing documentation set |
+| [Benchmark scripts directory](../bench/scripts/) | benchmark collection, comparison, profiling, and plotting automation |
+| [Charts directory](../bench/charts/) | generated SVG charts used by reports and README surfaces |

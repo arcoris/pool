@@ -30,9 +30,9 @@ It covers:
 - how charts are generated from compare-oriented CSV or curated raw snapshots;
 - how CPU matrices are selected for parallel work.
 
-Benchmark selection belongs in [benchmark-matrix.md](./benchmark-matrix.md).
-Result-reading rules belong in
-[interpretation-guide.md](./interpretation-guide.md).
+Benchmark selection belongs in the [Benchmark Matrix](./benchmark-matrix.md).
+Result-reading rules belong in the
+[Interpretation Guide](./interpretation-guide.md).
 
 ## Canonical Tooling
 
@@ -42,7 +42,7 @@ The canonical toolchain is:
 - `-benchmem` for allocation metrics;
 - `benchstat` for repeated-run comparison;
 - `go test -cpuprofile` and `-memprofile` for diagnostic profiles;
-- scripts under `bench/scripts/` for repeatable execution, artifact capture, and chart generation.
+- scripts in the [benchmark scripts directory](../../bench/scripts/) for repeatable execution, artifact capture, and chart generation.
 
 If another tool is used, the report MUST explain how its output maps back to
 this workflow.
@@ -103,7 +103,7 @@ Use this mode for contention-sensitive behaviour and parallel scaling work.
 ## Shell Suite Selectors
 
 The shell tooling exposes a stable suite vocabulary through
-`bench/scripts/run_benchmarks.sh`.
+[`run_benchmarks.sh`](../../bench/scripts/run_benchmarks.sh).
 
 Those suite names are part of the performance-layer contract and SHOULD be
 described with the same terminology used in the benchmark docs:
@@ -127,15 +127,15 @@ benchmark result represents.
 
 ## Artifact Layout
 
-Benchmark artifacts live under `bench/`:
+Benchmark artifacts live under the [benchmark workspace (`bench/`)](../../bench/):
 
-- `bench/raw/` for raw benchmark output and matching environment captures;
-- `bench/compare/` for `benchstat` output and optional CSV comparison data;
-- `bench/profiles/` for CPU and memory profiles and matching environment captures;
-- `bench/charts/` for generated chart artifacts, including compare charts and curated snapshot charts;
-- `bench/scripts/` for reproducible entrypoint scripts and shared sourced shell modules.
+- [Raw artifacts directory](../../bench/raw/) for raw benchmark output and matching environment captures;
+- [Comparison artifacts directory](../../bench/compare/) for `benchstat` output and optional CSV comparison data;
+- [Profiles directory](../../bench/profiles/) for CPU and memory profiles and matching environment captures;
+- [Charts directory](../../bench/charts/) for generated chart artifacts, including compare charts and curated snapshot charts;
+- [Benchmark scripts directory](../../bench/scripts/) for reproducible entrypoint scripts and shared sourced shell modules.
 
-Reports SHOULD live under `docs/performance/reports/`.
+Reports SHOULD live under the [performance reports directory](./reports/).
 
 Artifact policy:
 
@@ -143,7 +143,7 @@ Artifact policy:
 - throwaway raw outputs, comparisons, profiles, and generated charts SHOULD
   stay untracked;
 - curated human-authored reports MAY be committed under
-  `docs/performance/reports/`.
+  the [performance reports directory](./reports/).
 
 ## Scripted Workflow
 
@@ -239,11 +239,13 @@ python3 bench/scripts/plot_benchmarks.py \
 Chart rules:
 
 - chart generation is optional and presentation-oriented;
-- `plot_benchmarks.py` reads either compare-oriented CSV or raw snapshot input
-  and writes chart artifacts under `bench/charts/` by default;
+- [`plot_benchmarks.py`](../../bench/scripts/plot_benchmarks.py) reads either
+  compare-oriented CSV or raw snapshot input
+  and writes chart artifacts under the [charts directory](../../bench/charts/) by default;
 - snapshot charts aggregate repeated raw samples before rendering and group the
   output by family and metric;
-- the script loads canonical repository paths from `bench/scripts/paths.sh`,
+- the script loads canonical repository paths from
+  [`bench/scripts/paths.sh`](../../bench/scripts/paths.sh),
   so chart output follows the same path model as the shell tooling layer.
 
 ### 6. Capture profiles for a focused question
@@ -257,20 +259,21 @@ bench/scripts/profile_benchmarks.sh \
 Profile package rules:
 
 - profile runs must target exactly one package;
-- when `--packages` is omitted, the script infers `./` for root benchmarks and
-  `./internal/backend` for backend-only benchmarks;
+- when `--packages` is omitted, the script infers
+  [the repository root package](../../) for root benchmarks and
+  [the internal backend package](../../internal/backend/) for backend-only benchmarks;
 - wildcard package patterns such as `./...` are intentionally rejected for
   profiling because `go test -cpuprofile` and `-memprofile` do not support
   multi-package runs.
 
 Script responsibilities:
 
-- `run_benchmarks.sh` collects raw benchmark output and matching environment captures;
-- `compare_benchmarks.sh` compares repeated raw runs and can emit chart-ready CSV;
-- `profile_benchmarks.sh` captures CPU and memory profiles for one benchmark pattern in one package;
-- `capture_env.sh` writes standalone environment metadata without running benchmarks;
-- `run_performance_pipeline.sh` orchestrates run, compare, and profile steps without reimplementing them;
-- `plot_benchmarks.py` converts compare-oriented CSV or raw snapshot artifacts into chart artifacts.
+- [`run_benchmarks.sh`](../../bench/scripts/run_benchmarks.sh) collects raw benchmark output and matching environment captures;
+- [`compare_benchmarks.sh`](../../bench/scripts/compare_benchmarks.sh) compares repeated raw runs and can emit chart-ready CSV;
+- [`profile_benchmarks.sh`](../../bench/scripts/profile_benchmarks.sh) captures CPU and memory profiles for one benchmark pattern in one package;
+- [`capture_env.sh`](../../bench/scripts/capture_env.sh) writes standalone environment metadata without running benchmarks;
+- [`run_performance_pipeline.sh`](../../bench/scripts/run_performance_pipeline.sh) orchestrates run, compare, and profile steps without reimplementing them;
+- [`plot_benchmarks.py`](../../bench/scripts/plot_benchmarks.py) converts compare-oriented CSV or raw snapshot artifacts into chart artifacts.
 
 ## Run Intents
 
@@ -362,7 +365,7 @@ Profile rules:
 
 - profile one benchmark family or one report question at a time;
 - record the benchmark pattern used for the profile;
-- keep CPU and memory profiles as raw artifacts under `bench/profiles/`;
+- keep CPU and memory profiles as raw artifacts under the [profiles directory](../../bench/profiles/);
 - keep profile claims subordinate to the benchmark comparison that motivated
   them.
 

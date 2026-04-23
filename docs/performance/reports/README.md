@@ -39,11 +39,11 @@ This directory is not for:
 - copied raw benchmark dumps;
 - unfinished conclusions without supporting artifacts;
 - methodology rules that belong in the
-  [benchmark methodology guide](../methodology.md) (`docs/performance/methodology.md`);
+  [benchmark methodology guide](../methodology.md);
 - benchmark inventory that belongs in the
-  [benchmark matrix](../benchmark-matrix.md) (`docs/performance/benchmark-matrix.md`);
+  [benchmark matrix](../benchmark-matrix.md);
 - interpretation rules that belong in the
-  [benchmark interpretation guide](../interpretation-guide.md) (`docs/performance/interpretation-guide.md`).
+  [benchmark interpretation guide](../interpretation-guide.md).
 
 ## Chart Usage in Reports
 
@@ -52,9 +52,9 @@ Charts are presentation artifacts only.
 
 Reports MUST still point back to the underlying artifacts, such as:
 
-- `bench/raw/*.txt`
-- `bench/compare/*`
-- `bench/profiles/*`
+- [Raw benchmark artifacts](../../../bench/raw/)
+- [Comparison artifacts](../../../bench/compare/)
+- [Profile artifacts](../../../bench/profiles/)
 
 Good report chart usage:
 
@@ -70,7 +70,8 @@ Bad report chart usage:
 
 ## Relative Paths for Embedded Charts
 
-Reports in this directory sit three levels below the repository root.
+Reports in this directory sit three levels below the
+[repository root](../../../).
 Embedded chart paths therefore need the `../../../` prefix.
 
 Example:

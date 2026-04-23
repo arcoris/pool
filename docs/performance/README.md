@@ -16,11 +16,11 @@ This directory is the entry point for the repository's performance subsystem.
 It ties together:
 
 - benchmark source files that live next to the packages they measure;
-- raw benchmark artifacts under `bench/raw/`;
-- comparison artifacts under `bench/compare/`;
-- profile artifacts under `bench/profiles/`;
-- generated chart artifacts under `bench/charts/`;
-- curated human-authored reports under `docs/performance/reports/`.
+- raw benchmark artifacts in the [raw artifacts directory](../../bench/raw/);
+- comparison artifacts in the [comparison artifacts directory](../../bench/compare/);
+- profile artifacts in the [profiles directory](../../bench/profiles/);
+- generated chart artifacts in the [charts directory](../../bench/charts/);
+- curated human-authored reports in the [reports directory](./reports/).
 
 This README is an overview and navigation file.
 Method rules, benchmark inventory, interpretation rules, and report contract
@@ -30,12 +30,12 @@ live in the linked reference documents.
 
 | Path | Responsibility |
 | --- | --- |
-| `bench/raw/` | repeated raw `go test -bench` output and matching environment captures |
-| `bench/compare/` | `benchstat` output and optional compare-oriented CSV |
-| `bench/profiles/` | CPU and memory profiles plus matching environment captures |
-| `bench/charts/` | generated SVG charts from compare CSV and curated raw snapshots |
-| `docs/performance/reports/` | preserved reports that tie the artifacts together |
-| `bench/scripts/` | benchmark automation, environment capture, comparison, profiling, and chart generation |
+| [Raw artifacts directory](../../bench/raw/) | repeated raw `go test -bench` output and matching environment captures |
+| [Comparison artifacts directory](../../bench/compare/) | `benchstat` output and optional compare-oriented CSV |
+| [Profiles directory](../../bench/profiles/) | CPU and memory profiles plus matching environment captures |
+| [Charts directory](../../bench/charts/) | generated SVG charts from compare CSV and curated raw snapshots |
+| [Reports directory](./reports/) | preserved reports that tie the artifacts together |
+| [Benchmark scripts directory](../../bench/scripts/) | benchmark automation, environment capture, comparison, profiling, and chart generation |
 
 ## Initial Snapshot Overview
 
@@ -43,8 +43,8 @@ The current chart set includes one curated initial baseline snapshot from a
 single raw benchmark artifact:
 
 - [Initial baseline report](./reports/2026-04-21-initial-baseline.md)
-- [Initial baseline raw artifact](../../bench/raw/initial-baseline.txt) (`bench/raw/initial-baseline.txt`)
-- [Initial baseline environment capture](../../bench/raw/initial-baseline.env.txt) (`bench/raw/initial-baseline.env.txt`)
+- [Initial baseline raw artifact](../../bench/raw/initial-baseline.txt) in the [raw artifacts directory](../../bench/raw/)
+- [Initial baseline environment capture](../../bench/raw/initial-baseline.env.txt) in the [raw artifacts directory](../../bench/raw/)
 
 This snapshot is a current-state presentation layer.
 It does not establish regression or improvement across revisions.
@@ -78,8 +78,8 @@ and drop-observed return paths.
 
 Supporting lifecycle counters are available in the report, for example:
 
-- [Path drop-rate chart](../../bench/charts/initial-baseline-paths-drops-op.svg) (`bench/charts/initial-baseline-paths-drops-op.svg`)
-- [Metrics reuse-denial chart](../../bench/charts/initial-baseline-metrics-reuse-denials-op.svg) (`bench/charts/initial-baseline-metrics-reuse-denials-op.svg`)
+- [Path drop-rate chart](../../bench/charts/initial-baseline-paths-drops-op.svg) in the [charts directory](../../bench/charts/)
+- [Metrics reuse-denial chart](../../bench/charts/initial-baseline-metrics-reuse-denials-op.svg) in the [charts directory](../../bench/charts/)
 
 ### Realistic parallel surface
 

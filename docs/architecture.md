@@ -32,17 +32,17 @@ Its architecture is intentionally narrow:
 This document explains the structural boundaries of the repository. It does not
 serve as the primary lifecycle specification and it does not serve as the
 primary scope-boundary document. Those responsibilities belong to
-`docs/lifecycle.md` and `docs/non-goals.md`.
+[Lifecycle guide](./lifecycle.md) and [Non-goals guide](./non-goals.md).
 
 ## Document Map
 
 Read the documentation in the following order:
 
-- [Package overview](../doc.go) (`doc.go`) — package contract for Go users and pkg.go.dev
-- [Architecture guide](./architecture.md) (`docs/architecture.md`) — repository structure, layering, and dependency boundaries
-- [Lifecycle guide](./lifecycle.md) (`docs/lifecycle.md`) — value lifecycle, ownership, and return-path semantics
-- [Non-goals guide](./non-goals.md) (`docs/non-goals.md`) — explicit scope boundaries and proposal decision rules
-- [Performance overview](./performance/README.md) (`docs/performance/README.md`) — entry point for benchmark methodology, matrix, and interpretation rules
+- [Package overview](../doc.go) ([`doc.go`](../doc.go)) — package contract for Go users and pkg.go.dev
+- [Architecture guide](./architecture.md) ([`docs/architecture.md`](./architecture.md)) — repository structure, layering, and dependency boundaries
+- [Lifecycle guide](./lifecycle.md) ([`docs/lifecycle.md`](./lifecycle.md)) — value lifecycle, ownership, and return-path semantics
+- [Non-goals guide](./non-goals.md) ([`docs/non-goals.md`](./non-goals.md)) — explicit scope boundaries and proposal decision rules
+- [Performance overview](./performance/README.md) ([`docs/performance/README.md`](./performance/README.md)) — entry point for benchmark methodology, matrix, and interpretation rules
 
 ## Repository Structure
 
@@ -106,23 +106,40 @@ pool/                               # repository root for the typed pool runtime
          └─ README.md               # contract for what committed reports must contain
 ```
 
+Clickable repository paths:
+
+| Area | Link |
+| --- | --- |
+| repository root | [Repository root](../) |
+| benchmark workspace | [bench/](../bench/) |
+| raw benchmark artifacts | [bench/raw/](../bench/raw/) |
+| comparison artifacts | [bench/compare/](../bench/compare/) |
+| profile artifacts | [bench/profiles/](../bench/profiles/) |
+| generated charts | [bench/charts/](../bench/charts/) |
+| benchmark scripts | [bench/scripts/](../bench/scripts/) |
+| internal backend | [internal/backend/](../internal/backend/) |
+| test utilities | [internal/testutil/](../internal/testutil/) |
+| documentation set | [docs/](./) |
+| performance docs | [docs/performance/](./performance/) |
+| performance reports | [docs/performance/reports/](./performance/reports/) |
+
 This layout separates:
 
 - public package code at the repository root;
-- benchmark artifacts and automation under `bench/`;
-- internal implementation details under `internal/`;
-- repository documentation under `docs/`;
+- benchmark artifacts and automation under [bench/](../bench/);
+- internal implementation details under [internal/](../internal/);
+- repository documentation under [docs/](./);
 - package-local tests next to the packages they verify.
 
 ## Dependency Direction
 
 The dependency direction is intentionally simple.
 
-- `options.go` defines lifecycle policy and does not depend on runtime or backend code.
-- `lifecycle.go` depends on lifecycle policy types and a minimal sink contract.
-- `pool.go` assembles policy, lifecycle, and the internal backend into the public runtime.
-- `internal/backend/syncpool.go` depends only on `sync.Pool` and its own typed invariant checks.
-- `internal/testutil/*.go` supports tests and benchmarks but MUST NOT become a runtime dependency.
+- [`options.go`](../options.go) defines lifecycle policy and does not depend on runtime or backend code.
+- [`lifecycle.go`](../lifecycle.go) depends on lifecycle policy types and a minimal sink contract.
+- [`pool.go`](../pool.go) assembles policy, lifecycle, and the internal backend into the public runtime.
+- [`internal/backend/syncpool.go`](../internal/backend/syncpool.go) depends only on `sync.Pool` and its own typed invariant checks.
+- [`internal/testutil/`](../internal/testutil/) supports tests and benchmarks but MUST NOT become a runtime dependency.
 
 In other words:
 
@@ -139,7 +156,7 @@ The package can be understood as four layers.
 
 Files:
 
-- `options.go`
+- [`options.go`](../options.go)
 
 Responsibility:
 
@@ -153,7 +170,7 @@ This layer answers: what lifecycle policy should the public runtime apply?
 
 Files:
 
-- `lifecycle.go`
+- [`lifecycle.go`](../lifecycle.go)
 
 Responsibility:
 
@@ -167,7 +184,7 @@ This layer answers: how is lifecycle policy applied on the return path?
 
 Files:
 
-- `pool.go`
+- [`pool.go`](../pool.go)
 
 Responsibility:
 
@@ -181,7 +198,7 @@ This layer answers: how do callers use the package?
 
 Files:
 
-- `internal/backend/syncpool.go`
+- [`internal/backend/syncpool.go`](../internal/backend/syncpool.go)
 
 Responsibility:
 
@@ -224,17 +241,17 @@ storage mechanics.
 
 The performance documentation is intentionally split by responsibility.
 
-- `docs/performance/README.md` is the entry point for the performance document set.
-- `docs/performance/methodology.md` defines execution procedure and artifact workflow.
-- `docs/performance/benchmark-matrix.md` defines benchmark inventory and canonical cases.
-- `docs/performance/interpretation-guide.md` defines result-reading and reporting rules.
+- [`docs/performance/README.md`](./performance/README.md) is the entry point for the performance document set.
+- [`docs/performance/methodology.md`](./performance/methodology.md) defines execution procedure and artifact workflow.
+- [`docs/performance/benchmark-matrix.md`](./performance/benchmark-matrix.md) defines benchmark inventory and canonical cases.
+- [`docs/performance/interpretation-guide.md`](./performance/interpretation-guide.md) defines result-reading and reporting rules.
 
 This split keeps benchmark governance separate from package contract, lifecycle
 semantics, and architectural structure.
 
 ## Why the Backend Is Internal
 
-The backend is intentionally hidden under `internal/`.
+The backend is intentionally hidden under [`internal/`](../internal/).
 
 That boundary exists because:
 
@@ -248,64 +265,64 @@ in terms of backend selection.
 
 ## File-Level Responsibilities
 
-### `doc.go`
+### [`doc.go`](../doc.go)
 
 Package contract for Go users and pkg.go.dev.
 
-### `options.go`
+### [`options.go`](../options.go)
 
 Lifecycle policy definition and normalization.
 
-### `lifecycle.go`
+### [`lifecycle.go`](../lifecycle.go)
 
 Canonical return-path semantics.
 
-### `pool.go`
+### [`pool.go`](../pool.go)
 
 Public runtime assembly and public `Get`/`Put` API.
 
-### `pool_*_benchmark_test.go`
+### Root benchmark files in [repository root](../)
 
 Benchmark families for baselines, lifecycle paths, value shapes, parallel
 execution, compare surfaces, and metric-oriented runs.
 
-### `internal/backend/syncpool.go`
+### [`internal/backend/syncpool.go`](../internal/backend/syncpool.go)
 
 Thin internal backend over `sync.Pool`.
 
-### `internal/testutil/*.go`
+### Test support in [`internal/testutil/`](../internal/testutil/)
 
 Reusable test and benchmark support shared across repository test packages.
 
-### `docs/architecture.md`
+### [Architecture guide](./architecture.md)
 
 Repository structure and architectural boundaries.
 
-### `docs/lifecycle.md`
+### [Lifecycle guide](./lifecycle.md)
 
 Normative lifecycle and ownership semantics.
 
-### `docs/non-goals.md`
+### [Non-goals guide](./non-goals.md)
 
 Normative scope-boundary document.
 
-### `docs/performance/README.md`
+### [Performance overview](./performance/README.md)
 
 Index for the performance document set.
 
-### `docs/performance/methodology.md`
+### [Benchmark methodology](./performance/methodology.md)
 
 Procedural benchmark methodology.
 
-### `docs/performance/benchmark-matrix.md`
+### [Benchmark matrix](./performance/benchmark-matrix.md)
 
 Benchmark inventory and canonical suite definition.
 
-### `docs/performance/interpretation-guide.md`
+### [Interpretation guide](./performance/interpretation-guide.md)
 
 Rules for reading and reporting finished results.
 
-### `docs/performance/reports/README.md`
+### [Reports contract](./performance/reports/README.md)
 
 Contract for committed performance reports.
 
@@ -317,9 +334,9 @@ The test layout follows the runtime layering.
 
 Files:
 
-- `options_test.go`
-- `lifecycle_test.go`
-- `pool_test.go`
+- [`options_test.go`](../options_test.go)
+- [`lifecycle_test.go`](../lifecycle_test.go)
+- [`pool_test.go`](../pool_test.go)
 
 These verify:
 
@@ -331,7 +348,7 @@ These verify:
 
 Files:
 
-- `internal/backend/syncpool_test.go`
+- [`internal/backend/syncpool_test.go`](../internal/backend/syncpool_test.go)
 
 These verify:
 
@@ -344,12 +361,12 @@ These verify:
 
 Files:
 
-- `internal/testutil/assertions.go`
-- `internal/testutil/benchmark.go`
-- `internal/testutil/metrics.go`
-- `internal/testutil/payload.go`
-- `internal/testutil/recording.go`
-- `internal/testutil/runtime.go`
+- [`internal/testutil/assertions.go`](../internal/testutil/assertions.go)
+- [`internal/testutil/benchmark.go`](../internal/testutil/benchmark.go)
+- [`internal/testutil/metrics.go`](../internal/testutil/metrics.go)
+- [`internal/testutil/payload.go`](../internal/testutil/payload.go)
+- [`internal/testutil/recording.go`](../internal/testutil/recording.go)
+- [`internal/testutil/runtime.go`](../internal/testutil/runtime.go)
 
 This package exists so reusable test and benchmark helpers remain shared
 infrastructure instead of being duplicated across packages.
@@ -365,14 +382,14 @@ Benchmark source files SHOULD live next to the packages they benchmark.
 
 That means:
 
-- benchmarks for the public runtime belong next to `pool.go`;
-- benchmarks for the internal backend belong next to `internal/backend/syncpool.go`.
+- benchmarks for the public runtime belong next to [`pool.go`](../pool.go);
+- benchmarks for the internal backend belong next to [`internal/backend/syncpool.go`](../internal/backend/syncpool.go).
 
 Generated artifacts such as profiles, charts, and reports SHOULD remain outside
 package source layout.
 
-- raw artifacts and automation belong under `bench/`;
-- performance governance documents belong under `docs/performance/`;
+- raw artifacts and automation belong under [`bench/`](../bench/);
+- performance governance documents belong under [`docs/performance/`](./performance/);
 - these files MUST NOT be mixed into the runtime API surface.
 
 ## Architectural Change Boundaries
@@ -393,18 +410,19 @@ Changes that should be treated as architectural scope changes include:
 - adding public coordination concepts such as leases, tokens, or scheduler semantics;
 - turning test support into a runtime dependency.
 
-Detailed product exclusions live in `docs/non-goals.md`. This section exists
-only to state the architectural consequence of crossing those boundaries.
+Detailed product exclusions live in the [Non-goals guide](./non-goals.md).
+This section exists only to state the architectural consequence of crossing
+those boundaries.
 
 ## Summary
 
 The architecture of `arcoris.dev/pool` is intentionally small and layered.
 
-- `options.go` defines lifecycle policy.
-- `lifecycle.go` defines return-path semantics.
-- `pool.go` defines the public runtime.
-- `internal/backend/syncpool.go` provides the internal backend.
-- `internal/testutil/*.go` supports tests and benchmarks without leaking into runtime.
+- [`options.go`](../options.go) defines lifecycle policy.
+- [`lifecycle.go`](../lifecycle.go) defines return-path semantics.
+- [`pool.go`](../pool.go) defines the public runtime.
+- [`internal/backend/syncpool.go`](../internal/backend/syncpool.go) provides the internal backend.
+- [`internal/testutil/`](../internal/testutil/) supports tests and benchmarks without leaking into runtime.
 
 That separation keeps the package easy to read, easy to test, and easier to
 change conservatively over time.

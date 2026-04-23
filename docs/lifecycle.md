@@ -27,8 +27,9 @@ It specifies:
 - how the return path applies lifecycle policy;
 - which invariants repository changes MUST preserve.
 
-Repository structure belongs in `docs/architecture.md`. Explicit scope
-exclusions belong in `docs/non-goals.md`.
+Repository structure belongs in the
+[Architecture guide](./architecture.md). Explicit scope exclusions belong in
+the [Non-goals guide](./non-goals.md).
 
 ## Scope
 
