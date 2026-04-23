@@ -1,0 +1,73 @@
+# Copyright 2026 The ARCORIS Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# CODEOWNERS for `arcoris.dev/pool`.
+#
+# The same owner is repeated intentionally across review domains even though a
+# default catch-all exists. This keeps ownership explicit by subsystem and makes
+# later delegation to additional maintainers straightforward without having to
+# redesign the file structure first.
+
+# Default repository owner.
+* @bochkov-anton
+
+# Module and repository metadata.
+/LICENSE @bochkov-anton
+/go.mod @bochkov-anton
+/.gitignore @bochkov-anton
+
+# Public package contract, lifecycle semantics, and root package tests.
+/doc.go @bochkov-anton
+/options.go @bochkov-anton
+/options_test.go @bochkov-anton
+/lifecycle.go @bochkov-anton
+/lifecycle_test.go @bochkov-anton
+/pool.go @bochkov-anton
+/pool_test.go @bochkov-anton
+
+# Root benchmark suites that define the public benchmark taxonomy.
+/pool_*_benchmark_test.go @bochkov-anton
+
+# Internal implementation and shared test helpers.
+/internal/backend/ @bochkov-anton
+/internal/testutil/ @bochkov-anton
+
+# Benchmark tooling, raw artifacts layout, comparison flow, and chart pipeline.
+/bench/ @bochkov-anton
+
+# Repository-local CI helper scripts and their tests.
+/scripts/ @bochkov-anton
+/tests/ @bochkov-anton
+/requirements.txt @bochkov-anton
+
+# Contributor-facing documentation and repository policy docs.
+/README.md @bochkov-anton
+/CONTRIBUTING.md @bochkov-anton
+/SECURITY.md @bochkov-anton
+/CODE_OF_CONDUCT.md @bochkov-anton
+/THIRD_PARTY_NOTICES.md @bochkov-anton
+/docs/ @bochkov-anton
+
+# Community, automation, workflow policy, and repository governance.
+/.github/CODEOWNERS @bochkov-anton
+/.github/ISSUE_TEMPLATE/ @bochkov-anton
+/.github/PULL_REQUEST_TEMPLATE.md @bochkov-anton
+/.github/dependabot.yml @bochkov-anton
+/.github/dependency-review-config.yml @bochkov-anton
+/.github/workflows/ @bochkov-anton
+
+# Release, lint, and commit policy configuration.
+/release.config.cjs @bochkov-anton
+/commitlint.config.cjs @bochkov-anton
+/.golangci.yml @bochkov-anton
