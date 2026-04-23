@@ -1,0 +1,163 @@
+name: Design proposal
+description: Propose a design-level change to the public contract, lifecycle model, repository benchmark methodology, or release-critical repository structure.
+title: "[proposal] "
+labels:
+  - proposal
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form only for design-level changes.
+
+        Good examples:
+        - public API contract changes;
+        - lifecycle ordering or ownership model changes;
+        - repository benchmark methodology changes;
+        - benchmark/report/chart workflow changes that affect the maintained evidence model;
+        - documentation architecture changes that materially affect the repository.
+
+        If the change is small or local, prefer the feature request form.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues and proposals first.
+          required: true
+        - label: This is larger than a simple feature request or small bug fix.
+          required: true
+
+  - type: dropdown
+    id: proposal_class
+    attributes:
+      label: Proposal class
+      options:
+        - Public API contract change
+        - Lifecycle semantic change
+        - Backend/runtime design change
+        - Benchmark methodology change
+        - Chart/report workflow change
+        - Documentation architecture change
+        - Release / compatibility policy change
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: maturity
+    attributes:
+      label: Proposal maturity
+      options:
+        - Problem identified, design still open
+        - Draft design exists
+        - Detailed proposal ready for review
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk level
+      options:
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true
+
+  - type: input
+    id: summary
+    attributes:
+      label: Short summary
+      placeholder: Clarify and formalize pointer-like type guidance in the public contract
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      placeholder: |
+        What repository-level or contract-level problem needs to be solved?
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: goals
+    attributes:
+      label: Goals
+      placeholder: |
+        List the concrete goals of the proposal.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals
+      placeholder: |
+        State explicitly what this proposal is not trying to do.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_design
+    attributes:
+      label: Proposed design
+      description: Describe the design in enough detail for maintainers to review it.
+      placeholder: |
+        Include public behavior, ordering, structure, repository workflow impact, and any invariants.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility and migration
+      description: Explain compatibility impact and any migration path.
+      placeholder: |
+        Cover API compatibility, semantic compatibility, benchmark/report compatibility, or docs migration.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: Optional
+      render: text
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation plan
+      description: How should this proposal be validated?
+      placeholder: |
+        Include tests, benchmark evidence, documentation updates, or report updates as needed.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and trade-offs
+      placeholder: |
+        Describe the main costs, risks, and trade-offs.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Link prior issues, code, docs, reports, or external examples if relevant.
+      placeholder: Optional
+      render: text

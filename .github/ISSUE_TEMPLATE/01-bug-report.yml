@@ -1,0 +1,203 @@
+name: Bug report
+description: Report incorrect behavior, lifecycle issues, ownership bugs, documentation mismatches, or performance regressions in arcoris.dev/pool.
+title: "[bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+        Before filing:
+        - confirm the issue reproduces against a current commit or the latest published version;
+        - reduce the report to the smallest practical reproduction;
+        - use the race detector if concurrency or ownership is involved;
+        - for benchmark or performance issues, attach the relevant raw artifacts if available.
+
+        Use this form for `arcoris.dev/pool` itself, its benchmark layer, documentation, or maintained tooling.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      description: Confirm the basics before opening the issue.
+      options:
+        - label: I searched existing issues and did not find the same report.
+          required: true
+        - label: I can reproduce the issue on a current commit or the latest published version.
+          required: true
+        - label: I can describe the expected behavior and the actual behavior clearly.
+          required: true
+
+  - type: dropdown
+    id: bug_class
+    attributes:
+      label: Bug class
+      description: Which kind of problem is this?
+      options:
+        - Public API or runtime behavior
+        - Lifecycle semantics or callback ordering
+        - Ownership or concurrency misuse surface
+        - Performance regression
+        - Benchmark or reporting tooling
+        - Documentation or examples
+        - Shell or chart-generation tooling
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_area
+    attributes:
+      label: Affected area
+      description: Which repository area is most directly affected?
+      options:
+        - Pool runtime (`Pool[T]`, `Get`, `Put`)
+        - Lifecycle policy (`Options[T]`, `Reset`, `Reuse`, `OnDrop`)
+        - Backend (`internal/backend`)
+        - Package documentation / Go doc
+        - Benchmark source files
+        - Benchmark scripts (`bench/scripts`)
+        - Charts or reports
+        - Repository docs
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: summary
+    attributes:
+      label: Short summary
+      description: One sentence describing the problem.
+      placeholder: Put stores a value even when reuse should be denied
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened?
+      placeholder: |
+        Describe the observed behavior precisely.
+        Include panic text, wrong output, incorrect ownership behavior, or chart/script failure details if applicable.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened instead?
+      placeholder: |
+        Describe the expected runtime, lifecycle, or documentation behavior.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest practical reproduction.
+      placeholder: |
+        Include a Go snippet, commands, benchmark invocation, or exact reproduction steps.
+      render: text
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type_shape
+    attributes:
+      label: Pooled value shape
+      description: If relevant, what kind of `T` is involved?
+      options:
+        - Pointer-like mutable value
+        - Small value type
+        - Large value type
+        - Mixed or multiple types
+        - Not applicable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: regression
+    attributes:
+      label: Regression status
+      description: Is this known to be a regression?
+      options:
+        - Unknown
+        - No, this appears to be current behavior
+        - Yes, this worked previously
+    validations:
+      required: true
+
+  - type: input
+    id: current_version
+    attributes:
+      label: Current version or commit
+      description: Module version, tag, or commit hash being used.
+      placeholder: v0.1.0 or 81d38e0
+    validations:
+      required: true
+
+  - type: input
+    id: last_known_good
+    attributes:
+      label: Last known good version or commit
+      description: If this is a regression, what is the last known good state?
+      placeholder: Optional
+
+  - type: input
+    id: go_version
+    attributes:
+      label: Go version
+      placeholder: go version go1.25.0 linux/amd64
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, architecture, CPU, and any runtime details that matter.
+      placeholder: linux/amd64, Ryzen 7 7840HS, GOMAXPROCS=default
+    validations:
+      required: true
+
+  - type: dropdown
+    id: race_detector
+    attributes:
+      label: Race detector result
+      description: If ownership or concurrency is involved, what happened under `-race`?
+      options:
+        - Not run
+        - No race reported
+        - Race reported
+        - Not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: benchmark_evidence
+    attributes:
+      label: Benchmark or artifact evidence
+      description: Required for performance, benchmark, chart, or reporting issues.
+      placeholder: |
+        Link or paste references such as:
+        - bench/raw/<file>.txt
+        - bench/raw/<file>.env.txt
+        - bench/compare/<file>.txt or .csv
+        - bench/charts/<file>.svg
+        - docs/performance/reports/<file>.md
+      render: text
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: Anything else maintainers should know.
+      placeholder: Optional
+      render: text

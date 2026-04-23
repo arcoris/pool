@@ -1,0 +1,88 @@
+name: Contract clarification
+description: Ask a narrow maintainer clarification question about the public contract, lifecycle semantics, compatibility, or benchmark/report interpretation.
+title: "[question] "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for narrow maintainer clarification questions about the repository.
+
+        Examples:
+        - public `Get`/`Put` contract clarification;
+        - lifecycle ordering clarification;
+        - ownership / concurrency expectation clarification;
+        - benchmark methodology or report interpretation clarification;
+        - compatibility expectation clarification.
+
+        Do not use this form for:
+        - security reports;
+        - broad support requests unrelated to the repository contract;
+        - feature requests;
+        - bugs with a reproducible failure.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I checked the README and existing documentation first.
+          required: true
+        - label: I searched existing issues and discussions first.
+          required: true
+
+  - type: dropdown
+    id: question_area
+    attributes:
+      label: Question area
+      options:
+        - Public API contract
+        - Lifecycle ordering or callback semantics
+        - Ownership or concurrency expectations
+        - Type-shape guidance
+        - Benchmark methodology
+        - Chart or report interpretation
+        - Versioning or compatibility expectations
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: summary
+    attributes:
+      label: Short summary
+      placeholder: Clarify whether Reuse must inspect pre-reset state
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      placeholder: |
+        Ask the question clearly and as narrowly as possible.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: docs_checked
+    attributes:
+      label: What have you checked already?
+      description: Point to the docs, code, or reports you already consulted.
+      placeholder: |
+        README, docs/lifecycle.md, doc.go, methodology.md, report file, etc.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: why_not_bug
+    attributes:
+      label: Why is this a clarification rather than a bug?
+      placeholder: |
+        Explain why this is a question about the contract rather than a reproducible defect.
+      render: text
+    validations:
+      required: true

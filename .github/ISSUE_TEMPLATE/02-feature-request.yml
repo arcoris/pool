@@ -1,0 +1,164 @@
+name: Feature request
+description: Propose a repository-aligned improvement to arcoris.dev/pool, its docs, or its benchmark/report tooling.
+title: "[feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for improvements that fit the scope of `arcoris.dev/pool`.
+
+        Good examples:
+        - a small public API improvement;
+        - a lifecycle-policy enhancement;
+        - a benchmark/reporting improvement;
+        - a documentation or example improvement;
+        - a tooling refinement that fits the repository's current direction.
+
+        This is not the place for unrelated pooling frameworks, platform features, or scope expansions that conflict with the package non-goals.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues and did not find the same request.
+          required: true
+        - label: I believe this request fits the current scope of `arcoris.dev/pool`.
+          required: true
+
+  - type: dropdown
+    id: request_class
+    attributes:
+      label: Request class
+      description: Which kind of improvement is this?
+      options:
+        - Public API improvement
+        - Lifecycle policy improvement
+        - Ownership / semantics clarification
+        - Performance / allocation behavior
+        - Benchmark, chart, or report tooling
+        - Documentation or examples
+        - Test quality or repository ergonomics
+        - Release / packaging ergonomics
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_area
+    attributes:
+      label: Affected area
+      options:
+        - Pool runtime (`Pool[T]`, `Get`, `Put`)
+        - Lifecycle policy (`Options[T]`)
+        - Backend (`internal/backend`)
+        - Package docs / Go doc
+        - Benchmark source files
+        - Benchmark scripts (`bench/scripts`)
+        - Charts or reports
+        - Repository docs
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: summary
+    attributes:
+      label: Short summary
+      placeholder: Add a clearer supported pattern for value-type pooling benchmarks
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What limitation or friction does this request address?
+      placeholder: |
+        Describe the current limitation.
+        Explain why it matters in real usage, docs, testing, or benchmark/report workflows.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_change
+    attributes:
+      label: Proposed change
+      description: What should change?
+      placeholder: |
+        Describe the desired improvement precisely.
+        Keep it concrete and repository-aligned.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What alternatives did you consider, and why are they weaker?
+      placeholder: Optional
+      render: text
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example API, workflow, or documentation shape
+      description: Add examples if they make the request clearer.
+      placeholder: Optional
+      render: text
+
+  - type: dropdown
+    id: compatibility
+    attributes:
+      label: Compatibility impact
+      options:
+        - None expected
+        - Backward-compatible addition
+        - Behavior change without API break
+        - Potential API break
+        - Unknown
+    validations:
+      required: true
+
+  - type: dropdown
+    id: evidence_type
+    attributes:
+      label: Evidence type
+      description: What kind of supporting evidence exists?
+      options:
+        - Not needed
+        - Runtime example
+        - Benchmark evidence
+        - Documentation mismatch
+        - Test failure or gap
+        - External precedent
+        - Mixed
+    validations:
+      required: true
+
+  - type: textarea
+    id: supporting_evidence
+    attributes:
+      label: Supporting evidence
+      description: Link relevant benchmarks, docs, reports, prior discussion, or code references.
+      placeholder: Optional
+      render: text
+
+  - type: textarea
+    id: success_criteria
+    attributes:
+      label: Success criteria
+      description: How should maintainers know this request is complete?
+      placeholder: |
+        Describe the expected repository-visible outcome:
+        - API shape
+        - docs update
+        - tests
+        - benchmark/report impact
+      render: text
+    validations:
+      required: true

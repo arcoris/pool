@@ -1,0 +1,122 @@
+name: Documentation issue
+description: Report incorrect, unclear, stale, or missing documentation in arcoris.dev/pool.
+title: "[docs] "
+labels:
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for documentation issues in README files, package docs, performance docs,
+        reports, examples, or benchmark/report workflow guidance.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues first.
+          required: true
+        - label: I can point to the current incorrect, unclear, or missing documentation.
+          required: true
+
+  - type: dropdown
+    id: docs_area
+    attributes:
+      label: Documentation area
+      options:
+        - Root README
+        - Package Go doc
+        - Architecture documentation
+        - Lifecycle documentation
+        - Non-goals / scope documentation
+        - Performance overview
+        - Benchmark methodology
+        - Benchmark matrix
+        - Interpretation guide
+        - Reports or chart usage
+        - Examples
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Exact location
+      description: File path and section if known.
+      placeholder: docs/performance/benchmark-matrix.md — lifecycle path section
+    validations:
+      required: true
+
+  - type: dropdown
+    id: problem_type
+    attributes:
+      label: Problem type
+      options:
+        - Incorrect information
+        - Stale information
+        - Missing explanation
+        - Broken or confusing link text
+        - Wrong benchmark or file name
+        - Poor wording or structure
+        - Missing example
+        - Chart/report integration issue
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue_summary
+    attributes:
+      label: What is wrong?
+      placeholder: |
+        Describe the documentation problem clearly.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_docs
+    attributes:
+      label: What should it say instead?
+      placeholder: |
+        Provide the corrected wording, structure, or direction if you know it.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: source_of_truth
+    attributes:
+      label: Source of truth
+      description: Which file, test, benchmark, report, or script shows the correct current behavior?
+      placeholder: |
+        Link the relevant code, test, benchmark artifact, script, or report.
+      render: text
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Reader impact
+      options:
+        - Minor wording issue
+        - Moderate confusion
+        - Misleading contract or usage guidance
+        - Misleading benchmark/report interpretation
+        - Broken onboarding or contributor path
+    validations:
+      required: true
+
+  - type: dropdown
+    id: can_help
+    attributes:
+      label: Can you help fix it?
+      options:
+        - Yes, I can open a pull request
+        - Yes, with maintainer guidance
+        - No, reporting only
+    validations:
+      required: true
