@@ -73,6 +73,12 @@ jobs:
           python3 --version
           bash --version | head -n 1
 
+      - name: "Prepare smoke artifact directory"
+        shell: "bash"
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-smoke
+
       - name: "Verify benchmark tooling entrypoints exist"
         shell: "bash"
         run: |
@@ -116,7 +122,6 @@ jobs:
         run: |
           set -euo pipefail
 
-          mkdir -p .ci-smoke
           go test ./internal/backend \
             -run '^$' \
             -bench '^BenchmarkSyncPool_GetMiss$' \
@@ -193,9 +198,10 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: "Upload smoke artifacts"
+        if: ${{ always() && hashFiles('.ci-smoke/**') != '' }}
         uses: "actions/upload-artifact@v7"
         with:
           name: "benchmark-smoke-artifacts"
           path: ".ci-smoke"
           retention-days: 7
-          if-no-files-found: "error"
+          if-no-files-found: "warn"
