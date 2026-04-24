@@ -35,7 +35,7 @@ package pool
 //
 // Keeping the sink contract this small has several benefits:
 //
-//   - lifecycle code remains independent of sync.Pool-specific details;
+//   - lifecycle code remains independent of [sync.Pool]-specific details;
 //   - the public runtime can be structured as policy above, backend below;
 //   - alternate internal backends or debug wrappers can be introduced without
 //     rewriting lifecycle semantics;
@@ -207,7 +207,7 @@ func (l lifecycle[T]) ResetForReuse(value T) {
 //
 // The method intentionally does not guarantee that every ultimately discarded
 // object in the system will pass through this code path. Once a value has been
-// accepted into a sync.Pool-style backend, that backend may later release it
+// accepted into a [sync.Pool]-style backend, that backend may later release it
 // without further callbacks. ObserveDrop therefore represents explicit
 // rejection-by-policy, not a universal finalizer mechanism.
 func (l lifecycle[T]) ObserveDrop(value T) {

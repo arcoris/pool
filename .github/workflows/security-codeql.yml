@@ -18,18 +18,16 @@
   push:
     branches:
       - "main"
-      - "next"
   pull_request:
     branches:
       - "main"
-      - "next"
   schedule:
     # Weekly scheduled scan.
     #
     # Keep at least one scheduled run even when normal PR traffic is low, so
     # CodeQL still revisits the repository against newer query packs and newer
     # vulnerability knowledge over time.
-    - cron: "27 3 * * 1"
+    - cron: "0 4 * * 1"
   workflow_dispatch:
 
 permissions:

@@ -52,222 +52,211 @@ type optionsTestValue struct {
 	N int
 }
 
-func TestOptionsResolve(t *testing.T) {
-	t.Run("panics when New is nil", func(t *testing.T) {
-		testutil.AssertPanicMessage(
-			t,
-			"Options.resolve() with nil New",
-			func() {
-				var opts Options[*optionsTestObject]
-				_ = opts.resolve()
-			},
-			"pool: Options.New must not be nil",
+func TestOptionsResolvePanicsWhenNewIsNil(t *testing.T) {
+	testutil.AssertPanicMessage(
+		t,
+		"Options.resolve() with nil New",
+		func() {
+			var opts Options[*optionsTestObject]
+			_ = opts.resolve()
+		},
+		"pool: Options.New must not be nil",
+	)
+}
+
+func TestOptionsResolveDoesNotInvokeHooks(t *testing.T) {
+	calls := optionsHookCalls{}
+	opts := Options[*optionsTestObject]{
+		New: func() *optionsTestObject {
+			calls.new++
+			return &optionsTestObject{}
+		},
+		Reset: func(*optionsTestObject) {
+			calls.reset++
+		},
+		Reuse: func(*optionsTestObject) bool {
+			calls.reuse++
+			return true
+		},
+		OnDrop: func(*optionsTestObject) {
+			calls.drop++
+		},
+	}
+
+	_ = opts.resolve()
+
+	if calls != (optionsHookCalls{}) {
+		t.Fatalf("resolve() invoked hooks eagerly: got %+v, want all counters to remain zero", calls)
+	}
+}
+
+func TestOptionsResolveInstallsDefaultsForValueType(t *testing.T) {
+	resolved := Options[optionsTestValue]{
+		New: func() optionsTestValue {
+			return optionsTestValue{N: 41}
+		},
+	}.resolve()
+
+	if got := resolved.newFn(); got != (optionsTestValue{N: 41}) {
+		t.Fatalf("resolved newFn() = %+v, want %+v", got, optionsTestValue{N: 41})
+	}
+
+	value := optionsTestValue{N: 99}
+	resolved.resetFn(value)
+	if value != (optionsTestValue{N: 99}) {
+		t.Fatalf("default resetFn mutated value-typed input: got %+v, want %+v", value, optionsTestValue{N: 99})
+	}
+
+	if !resolved.reuseFn(optionsTestValue{N: -1}) {
+		t.Fatal("default reuseFn returned false for value-typed input, want true")
+	}
+
+	resolved.dropFn(optionsTestValue{N: 7})
+}
+
+func TestOptionsResolveInstallsDefaultsForPointerType(t *testing.T) {
+	expected := &optionsTestObject{count: 5, payload: []byte("abc")}
+	resolved := Options[*optionsTestObject]{
+		New: func() *optionsTestObject {
+			return expected
+		},
+	}.resolve()
+
+	if got := resolved.newFn(); got != expected {
+		t.Fatalf("resolved newFn() pointer = %p, want %p", got, expected)
+	}
+
+	object := &optionsTestObject{count: 77, payload: []byte("payload")}
+	beforeCount := object.count
+	beforePayload := string(object.payload)
+
+	resolved.resetFn(object)
+
+	if object.count != beforeCount || string(object.payload) != beforePayload {
+		t.Fatalf(
+			"default resetFn mutated pointer-backed input: got count=%d payload=%q, want count=%d payload=%q",
+			object.count,
+			string(object.payload),
+			beforeCount,
+			beforePayload,
 		)
-	})
+	}
+	if !resolved.reuseFn(object) {
+		t.Fatal("default reuseFn returned false for pointer-typed input, want true")
+	}
 
-	t.Run("does not invoke hooks during resolution", func(t *testing.T) {
-		calls := optionsHookCalls{}
-		opts := Options[*optionsTestObject]{
-			New: func() *optionsTestObject {
-				calls.new++
-				return &optionsTestObject{}
-			},
-			Reset: func(*optionsTestObject) {
-				calls.reset++
-			},
-			Reuse: func(*optionsTestObject) bool {
-				calls.reuse++
-				return true
-			},
-			OnDrop: func(*optionsTestObject) {
-				calls.drop++
-			},
-		}
+	resolved.dropFn(object)
+}
 
-		_ = opts.resolve()
+func TestOptionsResolvePreservesCustomHooks(t *testing.T) {
+	calls := optionsHookCalls{}
+	marker := &optionsTestObject{count: 10, payload: []byte("marker")}
 
-		if calls != (optionsHookCalls{}) {
-			t.Fatalf("resolve() invoked hooks eagerly: got %+v, want all counters to remain zero", calls)
-		}
-	})
+	resolved := Options[*optionsTestObject]{
+		New: func() *optionsTestObject {
+			calls.new++
+			return marker
+		},
+		Reset: func(v *optionsTestObject) {
+			calls.reset++
+			v.count = 0
+			v.payload = v.payload[:0]
+			v.resetSeen = true
+		},
+		Reuse: func(v *optionsTestObject) bool {
+			calls.reuse++
+			return v.count <= 64
+		},
+		OnDrop: func(v *optionsTestObject) {
+			calls.drop++
+			v.dropSeen = true
+		},
+	}.resolve()
 
-	t.Run("installs defaults for value type", func(t *testing.T) {
-		resolved := Options[optionsTestValue]{
-			New: func() optionsTestValue {
-				return optionsTestValue{N: 41}
-			},
-		}.resolve()
+	if got := resolved.newFn(); got != marker {
+		t.Fatalf("resolved newFn() pointer = %p, want %p", got, marker)
+	}
+	if calls.new != 1 {
+		t.Fatalf("custom newFn call count = %d, want 1", calls.new)
+	}
 
-		if got := resolved.newFn(); got != (optionsTestValue{N: 41}) {
-			t.Fatalf("resolved newFn() = %+v, want %+v", got, optionsTestValue{N: 41})
-		}
+	reusable := &optionsTestObject{count: 32, payload: []byte("retain")}
+	if !resolved.reuseFn(reusable) {
+		t.Fatal("custom reuseFn rejected reusable object, want true")
+	}
+	resolved.resetFn(reusable)
 
-		value := optionsTestValue{N: 99}
-		resolved.resetFn(value)
-		if value != (optionsTestValue{N: 99}) {
-			t.Fatalf("default resetFn mutated value-typed input: got %+v, want %+v", value, optionsTestValue{N: 99})
-		}
+	if calls.reuse != 1 {
+		t.Fatalf("custom reuseFn call count after accepted path = %d, want 1", calls.reuse)
+	}
+	if calls.reset != 1 {
+		t.Fatalf("custom resetFn call count after accepted path = %d, want 1", calls.reset)
+	}
+	if reusable.count != 0 {
+		t.Fatalf("custom resetFn left count = %d, want 0", reusable.count)
+	}
+	if len(reusable.payload) != 0 {
+		t.Fatalf("custom resetFn left payload length = %d, want 0", len(reusable.payload))
+	}
+	if !reusable.resetSeen {
+		t.Fatal("custom resetFn did not mark resetSeen")
+	}
+	if reusable.dropSeen {
+		t.Fatal("drop callback ran on accepted object, want it to remain untouched")
+	}
 
-		if !resolved.reuseFn(optionsTestValue{N: -1}) {
-			t.Fatal("default reuseFn returned false for value-typed input, want true")
-		}
+	dropped := &optionsTestObject{count: 128, payload: []byte("drop")}
+	if resolved.reuseFn(dropped) {
+		t.Fatal("custom reuseFn accepted dropped object, want false")
+	}
+	resolved.dropFn(dropped)
 
-		// The default drop policy is intentionally just "do nothing and do not
-		// panic"; there is no additional state to assert here.
-		resolved.dropFn(optionsTestValue{N: 7})
-	})
+	if calls.reuse != 2 {
+		t.Fatalf("custom reuseFn call count after dropped path = %d, want 2", calls.reuse)
+	}
+	if calls.drop != 1 {
+		t.Fatalf("custom dropFn call count = %d, want 1", calls.drop)
+	}
+	if !dropped.dropSeen {
+		t.Fatal("custom dropFn did not mark dropSeen")
+	}
+}
 
-	t.Run("installs defaults for pointer type", func(t *testing.T) {
-		expected := &optionsTestObject{count: 5, payload: []byte("abc")}
-		resolved := Options[*optionsTestObject]{
-			New: func() *optionsTestObject {
-				return expected
-			},
-		}.resolve()
+func TestOptionsResolveAllowsMixingCustomAndDefaultHooks(t *testing.T) {
+	resetCalls := 0
+	reuseCalls := 0
 
-		if got := resolved.newFn(); got != expected {
-			t.Fatalf("resolved newFn() pointer = %p, want %p", got, expected)
-		}
+	resolved := Options[*optionsTestObject]{
+		New: func() *optionsTestObject {
+			return &optionsTestObject{}
+		},
+		Reset: func(v *optionsTestObject) {
+			resetCalls++
+			v.count = 0
+		},
+		Reuse: func(v *optionsTestObject) bool {
+			reuseCalls++
+			return v.count == 0
+		},
+	}.resolve()
 
-		object := &optionsTestObject{count: 77, payload: []byte("payload")}
-		beforeCount := object.count
-		beforePayload := string(object.payload)
-		// The default reset policy must remain a true no-op for pointer-backed T:
-		// resolve() should install noopReset, not synthesize cleanup.
-		resolved.resetFn(object)
-		if object.count != beforeCount || string(object.payload) != beforePayload {
-			t.Fatalf(
-				"default resetFn mutated pointer-backed input: got count=%d payload=%q, want count=%d payload=%q",
-				object.count,
-				string(object.payload),
-				beforeCount,
-				beforePayload,
-			)
-		}
+	object := &optionsTestObject{count: 0}
+	if !resolved.reuseFn(object) {
+		t.Fatal("custom reuseFn rejected accepted object, want true")
+	}
+	resolved.resetFn(object)
 
-		if !resolved.reuseFn(object) {
-			t.Fatal("default reuseFn returned false for pointer-typed input, want true")
-		}
+	if object.count != 0 {
+		t.Fatalf("custom resetFn left count = %d, want 0", object.count)
+	}
+	if resetCalls != 1 {
+		t.Fatalf("custom resetFn call count = %d, want 1", resetCalls)
+	}
+	if reuseCalls != 1 {
+		t.Fatalf("custom reuseFn call count = %d, want 1", reuseCalls)
+	}
 
-		resolved.dropFn(object)
-	})
-
-	t.Run("preserves custom hooks", func(t *testing.T) {
-		calls := optionsHookCalls{}
-		marker := &optionsTestObject{count: 10, payload: []byte("marker")}
-
-		resolved := Options[*optionsTestObject]{
-			New: func() *optionsTestObject {
-				calls.new++
-				return marker
-			},
-			Reset: func(v *optionsTestObject) {
-				calls.reset++
-				v.count = 0
-				v.payload = v.payload[:0]
-				v.resetSeen = true
-			},
-			Reuse: func(v *optionsTestObject) bool {
-				calls.reuse++
-				return v.count <= 64
-			},
-			OnDrop: func(v *optionsTestObject) {
-				calls.drop++
-				v.dropSeen = true
-			},
-		}.resolve()
-
-		if got := resolved.newFn(); got != marker {
-			t.Fatalf("resolved newFn() pointer = %p, want %p", got, marker)
-		}
-		if calls.new != 1 {
-			t.Fatalf("custom newFn call count = %d, want 1", calls.new)
-		}
-
-		reusable := &optionsTestObject{count: 32, payload: []byte("retain")}
-		// Accepted objects must flow through Reuse and then Reset, while OnDrop
-		// must remain untouched on the retained path.
-		if !resolved.reuseFn(reusable) {
-			t.Fatal("custom reuseFn rejected reusable object, want true")
-		}
-		resolved.resetFn(reusable)
-
-		if calls.reuse != 1 {
-			t.Fatalf("custom reuseFn call count after accepted path = %d, want 1", calls.reuse)
-		}
-		if calls.reset != 1 {
-			t.Fatalf("custom resetFn call count after accepted path = %d, want 1", calls.reset)
-		}
-		if reusable.count != 0 {
-			t.Fatalf("custom resetFn left count = %d, want 0", reusable.count)
-		}
-		if len(reusable.payload) != 0 {
-			t.Fatalf("custom resetFn left payload length = %d, want 0", len(reusable.payload))
-		}
-		if !reusable.resetSeen {
-			t.Fatal("custom resetFn did not mark resetSeen")
-		}
-		if reusable.dropSeen {
-			t.Fatal("drop callback ran on accepted object, want it to remain untouched")
-		}
-
-		dropped := &optionsTestObject{count: 128, payload: []byte("drop")}
-		// Rejected objects follow the opposite path: Reuse returns false and the
-		// resolved drop callback remains callable with the original semantics.
-		if resolved.reuseFn(dropped) {
-			t.Fatal("custom reuseFn accepted dropped object, want false")
-		}
-		resolved.dropFn(dropped)
-
-		if calls.reuse != 2 {
-			t.Fatalf("custom reuseFn call count after dropped path = %d, want 2", calls.reuse)
-		}
-		if calls.drop != 1 {
-			t.Fatalf("custom dropFn call count = %d, want 1", calls.drop)
-		}
-		if !dropped.dropSeen {
-			t.Fatal("custom dropFn did not mark dropSeen")
-		}
-	})
-
-	t.Run("allows mixing custom and default hooks", func(t *testing.T) {
-		resetCalls := 0
-		reuseCalls := 0
-
-		resolved := Options[*optionsTestObject]{
-			New: func() *optionsTestObject {
-				return &optionsTestObject{}
-			},
-			Reset: func(v *optionsTestObject) {
-				resetCalls++
-				v.count = 0
-			},
-			Reuse: func(v *optionsTestObject) bool {
-				reuseCalls++
-				return v.count == 0
-			},
-		}.resolve()
-
-		object := &optionsTestObject{count: 0}
-		if !resolved.reuseFn(object) {
-			t.Fatal("custom reuseFn rejected accepted object, want true")
-		}
-		resolved.resetFn(object)
-
-		if object.count != 0 {
-			t.Fatalf("custom resetFn left count = %d, want 0", object.count)
-		}
-		if resetCalls != 1 {
-			t.Fatalf("custom resetFn call count = %d, want 1", resetCalls)
-		}
-		if reuseCalls != 1 {
-			t.Fatalf("custom reuseFn call count = %d, want 1", reuseCalls)
-		}
-
-		// OnDrop was left nil on purpose. The resolved drop hook should therefore
-		// remain the default no-op and be safely callable here.
-		resolved.dropFn(&optionsTestObject{count: 99})
-	})
+	resolved.dropFn(&optionsTestObject{count: 99})
 }
 
 func TestDefaultPolicies(t *testing.T) {
@@ -300,7 +289,7 @@ func TestDefaultPolicies(t *testing.T) {
 		}
 	})
 
-	t.Run("noopDrop accepts pointer and value inputs", func(t *testing.T) {
+	t.Run("noopDrop accepts pointer and value inputs", func(_ *testing.T) {
 		// noopDrop has no observable state change; the contract is simply that it
 		// accepts any T without panicking.
 		noopDrop(&optionsTestObject{count: 1})

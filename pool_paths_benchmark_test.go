@@ -26,7 +26,7 @@ import (
 // arcoris.dev/pool.
 //
 // Its responsibility is intentionally narrow. These benchmarks do not compare
-// the package against plain allocation or direct sync.Pool usage; that belongs
+// the package against plain allocation or direct [sync.Pool] usage; that belongs
 // to pool_baseline_benchmark_test.go. They also do not explore broader type
 // shape sensitivity or parallel scaling; those concerns belong to the shapes
 // and parallel benchmark suites.
@@ -197,7 +197,7 @@ func benchmarkPathsControlledAccepted(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get()
 			useAcceptedPath(v, i)
 			pathAcceptedSink = v
@@ -234,7 +234,7 @@ func benchmarkPathsRealisticAccepted(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		v := p.Get()
 		useAcceptedPath(v, i)
 		pathAcceptedSink = v
@@ -271,7 +271,7 @@ func benchmarkPathsRealisticRejected(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		v := p.Get()
 		useAcceptedPath(v, i)
 		p.Put(v)
@@ -302,7 +302,7 @@ func benchmarkPathsControlledResetHeavy(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get()
 			useHeavyResetPath(v, i)
 			pathHeavyResetSink = v
@@ -335,7 +335,7 @@ func benchmarkPathsRealisticDropObserved(b *testing.B) {
 		},
 		OnDrop: func(v *pathAccepted) {
 			drops++
-			for i := 0; i < len(v.Scratch); i++ {
+			for i := range len(v.Scratch) {
 				dropWork += uint64(v.Scratch[i])
 			}
 			pathDropSink = v
@@ -345,7 +345,7 @@ func benchmarkPathsRealisticDropObserved(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		v := p.Get()
 		useAcceptedPath(v, i)
 		// Make the drop callback do measurable work on the accumulated state.

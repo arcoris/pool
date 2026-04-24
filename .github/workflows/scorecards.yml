@@ -18,13 +18,15 @@
   push:
     branches:
       - "main"
+  workflow_dispatch:
+  branch_protection_rule:
   schedule:
-    # Weekly scheduled scan on the default branch.
+    # Weekly scheduled scan on the stable branch.
     #
     # Keep a scheduled run even if repository activity is low, so the published
     # Scorecard result is refreshed against newer query logic and newer
     # repository state over time.
-    - cron: "31 4 * * 1"
+    - cron: "0 5 * * 1"
 
 # Important workflow restrictions when `publish_results: true` is enabled:
 #
@@ -36,7 +38,7 @@
 permissions: "read-all"
 
 concurrency:
-  # Keep only one Scorecards run active for the default branch.
+  # Keep only one Scorecards run active for the stable branch.
   #
   # This avoids overlapping result publication and reduces unnecessary pressure
   # on the Scorecard API / code scanning upload path.

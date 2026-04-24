@@ -26,15 +26,14 @@
 
 "on":
   # Run docs smoke on the same review surfaces that can merge repository docs
-  # changes into maintained branches.
+  # changes into the protected branch, and on ordinary topic-branch pushes so
+  # navigation regressions are visible before a pull request exists.
   push:
     branches:
-      - "main"
-      - "next"
+      - "**"
   pull_request:
     branches:
       - "main"
-      - "next"
   merge_group:
   workflow_dispatch:
 

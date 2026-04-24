@@ -26,7 +26,7 @@ import "arcoris.dev/pool/internal/backend"
 //  1. value construction on the slow path, via [Options.New];
 //  2. lifecycle policy on return, via [Options.Reset], [Options.Reuse], and
 //     [Options.OnDrop];
-//  3. low-level storage and retrieval, via an internal sync.Pool-backed
+//  3. low-level storage and retrieval, via an internal [sync.Pool]-backed
 //     backend.
 //
 // In practical terms, Pool exists so that callers can work with the following
@@ -61,7 +61,7 @@ import "arcoris.dev/pool/internal/backend"
 //
 // # Design model
 //
-// Pool deliberately follows the temporary-object model of sync.Pool rather than
+// Pool deliberately follows the temporary-object model of [sync.Pool] rather than
 // the richer semantics of a full object-lifecycle manager. In particular:
 //
 //   - objects returned to the pool may later disappear from the backend without
@@ -87,7 +87,7 @@ import "arcoris.dev/pool/internal/backend"
 // # Concurrency
 //
 // Pool is safe for concurrent use by multiple goroutines. Backend storage is
-// delegated to sync.Pool through an internal adapter, and lifecycle policy is
+// delegated to [sync.Pool] through an internal adapter, and lifecycle policy is
 // immutable after construction.
 //
 // What is and is not concurrency-safe:
@@ -183,7 +183,7 @@ type Pool[T any] struct {
 //
 // New is the only supported constructor for Pool. It validates and resolves the
 // public [Options] value, assembles the internal lifecycle controller, and
-// creates the internal sync.Pool-backed backend.
+// creates the internal [sync.Pool]-backed backend.
 //
 // # Construction steps
 //

@@ -26,7 +26,7 @@ import (
 //
 // The purpose of this suite is to isolate how the shape of T changes the cost
 // profile of the public runtime. These benchmarks do not compare against plain
-// allocation or direct sync.Pool usage. Those questions belong to the baseline
+// allocation or direct [sync.Pool] usage. Those questions belong to the baseline
 // suite. They also do not focus on parallelism, which belongs to the parallel
 // suite.
 //
@@ -121,7 +121,7 @@ func benchmarkAcceptedShape[T any](
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get()
 			v = use(v, i)
 			store(v)
@@ -182,7 +182,7 @@ func benchmarkControlledShapePointerWithSlices(b *testing.B) {
 		},
 		func(v *shapePointerWithSlices, i int) *shapePointerWithSlices {
 			v.Bytes = append(v.Bytes[:0], byte(i), byte(i>>8), byte(i>>16), byte(i>>24))
-			for j := 0; j < 16; j++ {
+			for j := range 16 {
 				v.Tokens = append(v.Tokens, shapeToken{Kind: j, Value: i + j})
 			}
 			return v
@@ -307,7 +307,7 @@ func benchmarkShapeAlwaysOversizedRejected(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		v := p.Get()
 		// This benchmark is intentionally "always oversized", not mixed-size.
 		// Every iteration crosses the reuse threshold before Put.

@@ -66,7 +66,7 @@ func benchmarkMetricsControlledAcceptedWarmPath(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get()
 			v.Counter = i
 			v.Payload = testutil.AppendSamplePayload(v.Payload[:0])
@@ -114,7 +114,7 @@ func benchmarkMetricsRealisticRejectedSteadyState(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		v := p.Get()
 		v.Counter = i
 		v.Payload = testutil.AppendSamplePayload(v.Payload[:0])
@@ -170,7 +170,7 @@ func benchmarkMetricsRealisticMixedReuse(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		v := p.Get()
 		v.Counter = i
 		if i%8 == 0 {

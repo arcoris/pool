@@ -15,7 +15,7 @@
 # Commitlint workflow for repository-local Conventional Commit enforcement.
 #
 # Keep this workflow intentionally narrow:
-# - validate commit messages, not PR review state;
+# - validate commit messages and PR titles, not PR review state;
 # - use the repository's `commitlint.config.cjs`;
 # - keep event-to-commit-range logic in a repository script, not inline bash.
 "name": "Commit Lint"
@@ -25,27 +25,12 @@
   pull_request:
     branches:
       - "main"
-      - "next"
     types:
       - "opened"
+      - "edited"
       - "synchronize"
       - "reopened"
-      - "edited"
       - "ready_for_review"
-
-  # If merge queues are enabled later, this trigger is required so the same
-  # status check can run for merge groups as well.
-  merge_group:
-    types:
-      - "checks_requested"
-
-  # Also lint direct pushes to release branches. This is still useful even when
-  # protected branches are enabled, because it prevents silently accepting a bad
-  # commit message on any path that bypasses or predates the PR flow.
-  push:
-    branches:
-      - "main"
-      - "next"
 
   workflow_dispatch:
 
@@ -61,9 +46,8 @@ concurrency:
 
 jobs:
   commitlint:
-    # Keep the job name stable. If the repository later enables merge queues,
-    # GitHub can require this exact status check for both pull_request and
-    # merge_group events.
+    # Keep the job name stable so branch protection can require this exact
+    # check for pull requests into `main`.
     name: "commitlint"
     runs-on: "ubuntu-latest"
     timeout-minutes: 10
@@ -103,8 +87,9 @@ jobs:
 
       - name: "Install standalone commitlint toolchain"
         run: |
-          # Keep commitlint on the same repository policy as semantic-release:
-          # no committed Node manifest and no generated lockfile in CI.
+          # Keep commitlint on the same repository Node-tooling policy as other
+          # automation here: no committed Node manifest and no generated lockfile
+          # in CI.
           npm install --no-save --package-lock=false --no-audit --fund=false \
             @commitlint/cli \
             @commitlint/config-conventional
@@ -114,6 +99,15 @@ jobs:
 
       - name: "Show commitlint version"
         run: npx commitlint --version
+
+      - name: "Lint pull request title"
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          PR_TITLE: "${{ github.event.pull_request.title }}"
+        run: |
+          # Squash merges often use the PR title as the final commit header.
+          # Keep the title under the same Conventional Commit policy as commits.
+          printf '%s\n' "${PR_TITLE}" | npx commitlint --config commitlint.config.cjs --verbose
 
       - name: "Run repository commitlint orchestration"
         env:

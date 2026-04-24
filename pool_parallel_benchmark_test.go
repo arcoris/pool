@@ -29,7 +29,7 @@ import (
 // The suite exists to make concurrent behaviour visible separately from the
 // serial benchmarks. Serial steady-state results are useful, but they do not
 // answer how the runtime behaves under concurrent Get/Put traffic or how much
-// extra cost comes from package orchestration relative to direct sync.Pool
+// extra cost comes from package orchestration relative to direct [sync.Pool]
 // usage.
 //
 // Unlike the controlled serial hot path benchmarks elsewhere in the suite,
@@ -49,7 +49,7 @@ type parallelAccepted struct {
 }
 
 // parallelCompare is the compact pointer-backed shape shared by the raw
-// sync.Pool and public-runtime parallel comparison baselines.
+// [sync.Pool] and public-runtime parallel comparison baselines.
 type parallelCompare struct {
 	ID   uint64
 	Data [16]byte
@@ -142,7 +142,7 @@ func BenchmarkParallel_RealisticRejected(b *testing.B) {
 	benchmarkRealisticParallelRejected(b)
 }
 
-// benchmarkRealisticParallelRawSyncPool measures concurrent direct sync.Pool
+// benchmarkRealisticParallelRawSyncPool measures concurrent direct [sync.Pool]
 // usage as the closest low-level external baseline for the package runtime.
 func benchmarkRealisticParallelRawSyncPool(b *testing.B) {
 	var news atomic.Uint64
@@ -179,7 +179,7 @@ func benchmarkRealisticParallelRawSyncPool(b *testing.B) {
 	testutil.ReportPerOpMetric(b, news.Load(), testutil.MetricNewsPerOp)
 }
 
-// BenchmarkParallel_RealisticRawSyncPool measures concurrent direct sync.Pool
+// BenchmarkParallel_RealisticRawSyncPool measures concurrent direct [sync.Pool]
 // usage as the closest low-level external baseline for the package runtime.
 func BenchmarkParallel_RealisticRawSyncPool(b *testing.B) {
 	benchmarkRealisticParallelRawSyncPool(b)
