@@ -38,7 +38,7 @@
 //	p.Put(v)
 //
 // This package is therefore best understood as a typed, policy-driven runtime
-// layered over sync.Pool-style temporary reuse rather than as a comprehensive
+// layered over [sync.Pool]-style temporary reuse rather than as a comprehensive
 // resource manager.
 //
 // # Design model
@@ -47,7 +47,7 @@
 //
 //  1. [Options], which describes lifecycle policy declaratively;
 //  2. [Pool], which exposes the public Get/Put runtime API;
-//  3. an internal backend, currently implemented on top of sync.Pool, which
+//  3. an internal backend, currently implemented on top of [sync.Pool], which
 //     provides low-level storage and retrieval.
 //
 // These layers intentionally separate concerns:
@@ -176,14 +176,14 @@
 //
 // [DropFunc] is best-effort observation of explicit rejection-by-policy. It is
 // not a finalizer, and it is not guaranteed to run for every value that ever
-// becomes unreachable. Once a value has been accepted into a sync.Pool-style
+// becomes unreachable. Once a value has been accepted into a [sync.Pool]-style
 // backend, that backend may later discard it without further notification.
 //
 // # Concurrency model
 //
 // A [Pool] is safe for concurrent use by multiple goroutines. Its lifecycle
 // policy becomes immutable after construction, and backend storage is delegated
-// to an internal sync.Pool-backed adapter.
+// to an internal [sync.Pool]-backed adapter.
 //
 // However, the borrowed value returned by Get belongs to one logical owner at a
 // time. The package does not make the borrowed value itself concurrency-safe.
@@ -222,15 +222,15 @@
 //   - avoid copying large mutable state;
 //   - align naturally with object-pooling usage patterns in Go;
 //   - make ownership easier to reason about;
-//   - usually interact better with sync.Pool-style reuse than large value
+//   - usually interact better with [sync.Pool]-style reuse than large value
 //     objects do.
 //
 // Value types are supported, but they should be chosen deliberately rather than
 // by accident.
 //
-// # Relationship to sync.Pool
+// # Relationship to [sync.Pool]
 //
-// The package intentionally follows the temporary-object model of sync.Pool.
+// The package intentionally follows the temporary-object model of [sync.Pool].
 // It does not attempt to hide that heritage.
 //
 // In particular, callers should assume the same broad operational shape:
@@ -241,7 +241,7 @@
 //   - the package is designed for reducing allocation pressure for temporary
 //     values, not for maintaining a durable reserve of objects.
 //
-// What this package adds on top of sync.Pool is not a different storage model,
+// What this package adds on top of [sync.Pool] is not a different storage model,
 // but a better public runtime contract:
 //
 //   - typed access through [Pool[T]];
@@ -262,7 +262,7 @@
 //   - generic "resource management" abstractions beyond temporary value reuse.
 //
 // If a caller needs those features, it likely needs a different kind of
-// system than a sync.Pool-style temporary object reuse runtime.
+// system than a [sync.Pool]-style temporary object reuse runtime.
 //
 // # Internal structure
 //

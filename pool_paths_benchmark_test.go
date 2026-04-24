@@ -26,7 +26,7 @@ import (
 // arcoris.dev/pool.
 //
 // Its responsibility is intentionally narrow. These benchmarks do not compare
-// the package against plain allocation or direct sync.Pool usage; that belongs
+// the package against plain allocation or direct [sync.Pool] usage; that belongs
 // to pool_baseline_benchmark_test.go. They also do not explore broader type
 // shape sensitivity or parallel scaling; those concerns belong to the shapes
 // and parallel benchmark suites.

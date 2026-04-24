@@ -163,7 +163,7 @@ type Options[T any] struct {
 // For most real-world use cases, T SHOULD be a pointer-like type such as
 // *MyState, *RequestContext, or *Builder. Pointer-like values are typically the
 // best fit for object pooling because they avoid copying large mutable state
-// and align well with the intended usage pattern of sync.Pool-backed designs.
+// and align well with the intended usage pattern of [sync.Pool]-backed designs.
 //
 // Example:
 //
@@ -282,7 +282,7 @@ type ReuseFunc[T any] func(T) bool
 //
 // DropFunc MUST be treated as a best-effort callback. It is not a lifecycle
 // guarantee that a value will always pass through this hook before becoming
-// unreachable. In particular, values obtained from a sync.Pool-style backend
+// unreachable. In particular, values obtained from a [sync.Pool]-style backend
 // may disappear without an explicit callback once stored in the backend.
 //
 // DropFunc SHOULD remain lightweight. Heavy logging, allocation, blocking I/O,

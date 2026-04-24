@@ -24,7 +24,7 @@ import (
 )
 
 // The backend benchmark suite exists to measure only the low-level typed
-// adapter over sync.Pool.
+// adapter over [sync.Pool].
 //
 // These benchmarks intentionally avoid lifecycle policy concerns such as:
 //   - reset cost;
@@ -79,11 +79,19 @@ var (
 	syncPoolBenchmarkValueSink   syncPoolBenchmarkValue
 )
 
+func putSyncPoolBenchmarkValue(
+	p *SyncPool[syncPoolBenchmarkValue],
+	v syncPoolBenchmarkValue,
+) {
+	//nolint:staticcheck // This benchmark intentionally measures the by-value backend contrast path.
+	p.Put(v)
+}
+
 // BenchmarkSyncPool_GetMiss measures the pure backend miss path.
 //
 // The benchmark deliberately never returns values to the backend. As a result,
 // every Get call must fall through to the constructor installed in
-// sync.Pool.New.
+// [sync.Pool.New].
 //
 // This benchmark answers two questions:
 //   - what is the cost of a constructor miss at the backend layer;
@@ -172,7 +180,9 @@ func BenchmarkSyncPool_ControlledGetPut_Value(b *testing.B) {
 			return syncPoolBenchmarkValue{}
 		})
 
-		testutil.PrimePoolValue(p.Get, p.Put)
+		testutil.PrimePoolValue(p.Get, func(v syncPoolBenchmarkValue) {
+			putSyncPoolBenchmarkValue(p, v)
+		})
 		news = 0
 
 		b.ReportAllocs()
@@ -182,7 +192,7 @@ func BenchmarkSyncPool_ControlledGetPut_Value(b *testing.B) {
 			v := p.Get()
 			v.A = uint64(i)
 			v.B = uint64(i * 2)
-			p.Put(v)
+			putSyncPoolBenchmarkValue(p, v)
 			syncPoolBenchmarkValueSink = v
 		}
 
@@ -203,7 +213,7 @@ func BenchmarkSyncPool_ControlledGetPut_Value(b *testing.B) {
 //   - pure round-trip cost on already reusable values.
 //
 // A small prefill step is performed before timing begins. The goal is not to
-// guarantee zero misses across all Ps, which sync.Pool does not promise, but to
+// guarantee zero misses across all Ps, which [sync.Pool] does not promise, but to
 // avoid measuring an entirely cold backend when the question is concurrent
 // steady-state behaviour.
 func BenchmarkSyncPool_RealisticParallel(b *testing.B) {

@@ -487,6 +487,10 @@ linters:
       - text: 'comment on exported \S+ \S+ should be of the form ".+"'
         source: '// ?(nolint|TODO)'
         linters: [ revive, staticcheck ]
+      # The repository intentionally mixes black-box API tests with in-package
+      # white-box tests and benchmarks that need unexported lifecycle/backend
+      # access. Enforcing external-only test packages would weaken coverage
+      # more than it would improve structure here.
       - path: '_test\.go'
         linters:
           - bodyclose
@@ -496,4 +500,11 @@ linters:
           - goconst
           - gosec
           - noctx
+          - testpackage
           - wrapcheck
+      # Benchmark sink globals and shared benchmark payload fixtures are
+      # deliberate: they prevent compiler elimination and keep benchmark source
+      # material allocation-free across iterations.
+      - path: '(_benchmark_test\.go|internal/testutil/payload\.go)'
+        linters:
+          - gochecknoglobals

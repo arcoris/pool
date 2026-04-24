@@ -35,7 +35,7 @@ func PrimePoolValue[T any](get func() T, put func(T)) {
 // Parallel benchmarks use this helper to avoid measuring an entirely cold pool
 // when the question is concurrent steady-state behaviour.
 func PrefillPool[T any](count int, newFn func() T, put func(T)) {
-	for i := 0; i < count; i++ {
+	for range count {
 		put(newFn())
 	}
 }
@@ -44,7 +44,7 @@ func PrefillPool[T any](count int, newFn func() T, put func(T)) {
 // pool benchmarks.
 //
 // The value scales with the current GOMAXPROCS setting so the prefill step is
-// proportional to the number of active Ps that may participate in sync.Pool
+// proportional to the number of active Ps that may participate in [sync.Pool]
 // local-cache distribution.
 func ParallelWarmCount() int {
 	return runtime.GOMAXPROCS(0) * parallelWarmFactor

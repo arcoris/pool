@@ -29,7 +29,7 @@ import (
 // answer only the baseline comparison questions defined by the benchmark
 // matrix:
 //   - what plain allocation looks like for a temporary-object shape;
-//   - what direct sync.Pool usage looks like for the same shape;
+//   - what direct [sync.Pool] usage looks like for the same shape;
 //   - what arcoris.dev/pool adds on top of that baseline.
 //
 // The suite mixes two serial baseline modes on purpose:
@@ -83,6 +83,11 @@ var (
 	baselinePointerSink *baselinePointer
 	baselineValueSink   baselineValue
 )
+
+func putBaselineValueIntoRawSyncPool(p *sync.Pool, v baselineValue) {
+	//nolint:staticcheck // This contrast benchmark intentionally measures by-value [sync.Pool] storage.
+	p.Put(v)
+}
 
 // newBaselinePointer constructs a fresh pointer-like benchmark value with a
 // stable reusable scratch slice.
@@ -151,7 +156,7 @@ func benchmarkBaselineAllocOnlyPointer(b *testing.B) {
 }
 
 // benchmarkBaselineControlledRawSyncPoolPointer implements the controlled steady-state
-// direct sync.Pool pointer baseline used by both the canonical benchmark and
+// direct [sync.Pool] pointer baseline used by both the canonical benchmark and
 // the compare suite.
 func benchmarkBaselineControlledRawSyncPoolPointer(b *testing.B) {
 	testutil.WithControlledSteadyStatePoolRoundTrip(b, func() {
@@ -237,7 +242,7 @@ func benchmarkBaselineAllocOnlyValue(b *testing.B) {
 }
 
 // benchmarkBaselineControlledRawSyncPoolValue implements the controlled steady-state
-// direct sync.Pool value baseline.
+// direct [sync.Pool] value baseline.
 func benchmarkBaselineControlledRawSyncPoolValue(b *testing.B) {
 	testutil.WithControlledSteadyStatePoolRoundTrip(b, func() {
 		var news uint64
@@ -252,7 +257,7 @@ func benchmarkBaselineControlledRawSyncPoolValue(b *testing.B) {
 		testutil.PrimePoolValue(func() baselineValue {
 			return p.Get().(baselineValue)
 		}, func(v baselineValue) {
-			p.Put(v)
+			putBaselineValueIntoRawSyncPool(p, v)
 		})
 		news = 0
 
@@ -263,7 +268,7 @@ func benchmarkBaselineControlledRawSyncPoolValue(b *testing.B) {
 			v := p.Get().(baselineValue)
 			v = exerciseBaselineValue(v, i)
 			baselineValueSink = v
-			p.Put(v)
+			putBaselineValueIntoRawSyncPool(p, v)
 		}
 
 		b.StopTimer()
@@ -313,7 +318,7 @@ func BenchmarkBaseline_AllocOnly_Pointer(b *testing.B) {
 }
 
 // BenchmarkBaseline_Controlled_RawSyncPool_Pointer measures the controlled
-// steady-state direct sync.Pool reuse path for the pointer-like temporary
+// steady-state direct [sync.Pool] reuse path for the pointer-like temporary
 // object shape.
 //
 // The harness pins execution to one P, disables GC for the timed body, and
@@ -327,7 +332,7 @@ func BenchmarkBaseline_Controlled_RawSyncPool_Pointer(b *testing.B) {
 // BenchmarkBaseline_Controlled_ARCORISPool_Pointer measures the controlled
 // steady-state public runtime for the same pointer-like temporary-object shape.
 //
-// Like the raw sync.Pool companion, this is an upper-bound hot path serial
+// Like the raw [sync.Pool] companion, this is an upper-bound hot path serial
 // reuse benchmark. It is useful for localizing public runtime overhead relative
 // to the closest low-level baseline, but it is not a general package
 // performance claim on its own.
@@ -342,7 +347,7 @@ func BenchmarkBaseline_AllocOnly_Value(b *testing.B) {
 }
 
 // BenchmarkBaseline_Controlled_RawSyncPool_Value measures the controlled
-// steady-state direct sync.Pool reuse path for the canonical value-type
+// steady-state direct [sync.Pool] reuse path for the canonical value-type
 // benchmark shape.
 func BenchmarkBaseline_Controlled_RawSyncPool_Value(b *testing.B) {
 	benchmarkBaselineControlledRawSyncPoolValue(b)

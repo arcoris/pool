@@ -44,7 +44,7 @@ func AssertPanicMessage(tb testing.TB, scenario string, fn func(), want string) 
 }
 
 // MustPanic runs fn and returns the recovered panic value formatted with
-// fmt.Sprint.
+// [fmt.Sprint].
 //
 // If fn does not panic, the helper fails the test immediately. This keeps
 // panic-based contract checks concise while preserving the scenario name in the
