@@ -289,7 +289,7 @@ func TestDefaultPolicies(t *testing.T) {
 		}
 	})
 
-	t.Run("noopDrop accepts pointer and value inputs", func(t *testing.T) {
+	t.Run("noopDrop accepts pointer and value inputs", func(_ *testing.T) {
 		// noopDrop has no observable state change; the contract is simply that it
 		// accepts any T without panicking.
 		noopDrop(&optionsTestObject{count: 1})

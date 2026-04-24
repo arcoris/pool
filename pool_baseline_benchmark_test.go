@@ -144,7 +144,7 @@ func benchmarkBaselineAllocOnlyPointer(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		news++
 		v := newBaselinePointer()
 		exerciseBaselinePointer(v, i)
@@ -179,7 +179,7 @@ func benchmarkBaselineControlledRawSyncPoolPointer(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get().(*baselinePointer)
 			exerciseBaselinePointer(v, i)
 			baselinePointerSink = v
@@ -212,7 +212,7 @@ func benchmarkBaselineControlledPoolPointer(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get()
 			exerciseBaselinePointer(v, i)
 			baselinePointerSink = v
@@ -232,7 +232,7 @@ func benchmarkBaselineAllocOnlyValue(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		news++
 		baselineValueSink = exerciseBaselineValue(baselineValue{}, i)
 	}
@@ -264,7 +264,7 @@ func benchmarkBaselineControlledRawSyncPoolValue(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get().(baselineValue)
 			v = exerciseBaselineValue(v, i)
 			baselineValueSink = v
@@ -295,7 +295,7 @@ func benchmarkBaselineControlledPoolValue(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get()
 			v = exerciseBaselineValue(v, i)
 			baselineValueSink = v

@@ -134,7 +134,10 @@ func TestSyncPoolTypedNilHandling(t *testing.T) {
 			switch {
 			case got == nil:
 				if calls != 0 {
-					t.Fatalf("constructor call count after nil pointer round-trip = %d, want 0 when stored nil was reused", calls)
+					t.Fatalf(
+						"constructor call count after nil pointer round-trip = %d, want 0 when stored nil was reused",
+						calls,
+					)
 				}
 			case got.ID == 1:
 				if calls != 1 {
@@ -265,12 +268,12 @@ func assertValueGetAfterPut(
 ) {
 	t.Helper()
 
-	switch {
-	case got == stored:
+	switch got {
+	case stored:
 		if constructorCalls != 0 {
 			t.Fatalf("constructor call count after value reuse = %d, want 0", constructorCalls)
 		}
-	case got == (syncPoolTestObject{ID: 1}):
+	case syncPoolTestObject{ID: 1}:
 		if constructorCalls != 1 {
 			t.Fatalf("constructor call count after value fallback construction = %d, want 1", constructorCalls)
 		}

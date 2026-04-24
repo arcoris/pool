@@ -83,7 +83,6 @@ func putSyncPoolBenchmarkValue(
 	p *SyncPool[syncPoolBenchmarkValue],
 	v syncPoolBenchmarkValue,
 ) {
-	//nolint:staticcheck // This benchmark intentionally measures the by-value backend contrast path.
 	p.Put(v)
 }
 
@@ -111,7 +110,7 @@ func BenchmarkSyncPool_GetMiss(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		v := p.Get()
 		v.ID = i
 		syncPoolBenchmarkPointerSink = v
@@ -149,7 +148,7 @@ func BenchmarkSyncPool_ControlledGetPut_Pointer(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get()
 			v.ID = i
 			v.Data[0] = byte(i)
@@ -188,7 +187,7 @@ func BenchmarkSyncPool_ControlledGetPut_Value(b *testing.B) {
 		b.ReportAllocs()
 		b.ResetTimer()
 
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			v := p.Get()
 			v.A = uint64(i)
 			v.B = uint64(i * 2)
