@@ -17,8 +17,13 @@
 "on":
   push:
     tags:
-      - "v*"
+      - "v*.*.*"
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Existing stable tag to attest (for example: v1.2.3)"
+        required: true
+        type: "string"
 
 permissions:
   # Read repository contents to build the release bundle from the tagged source.
@@ -30,7 +35,7 @@ permissions:
   artifact-metadata: "write"
 
 concurrency:
-  # Only one attestation workflow should run per tag at a time.
+  # Only one attestation workflow should run per stable tag at a time.
   group: "attest-${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
 
@@ -44,6 +49,8 @@ jobs:
       - name: "Checkout tagged source"
         uses: "actions/checkout@v6"
         with:
+          # Attest only stable tags. Manual dispatches must supply the exact tag.
+          ref: "${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref_name }}"
           fetch-depth: 0
 
       - name: "Resolve release metadata"
@@ -52,12 +59,23 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [[ "${GITHUB_REF_TYPE:-}" == "tag" ]]; then
-            tag="${GITHUB_REF_NAME}"
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            tag="${{ inputs.release_tag }}"
           else
-            # workflow_dispatch fallback:
-            # use the current HEAD short SHA when no release tag triggered the run.
-            tag="manual-${GITHUB_SHA::12}"
+            tag="${GITHUB_REF_NAME}"
+          fi
+
+          if [[ ! "${tag}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "stable attestations require a SemVer tag in the form vX.Y.Z; got ${tag}" >&2
+            exit 1
+          fi
+
+          git fetch origin main --force
+
+          release_sha="$(git rev-list -n 1 "${tag}")"
+          if ! git merge-base --is-ancestor "${release_sha}" "origin/main"; then
+            echo "stable attestation tag ${tag} does not point to a commit reachable from origin/main" >&2
+            exit 1
           fi
 
           artifact_dir="dist"
@@ -67,6 +85,7 @@ jobs:
           mkdir -p "${artifact_dir}"
 
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "release_sha=${release_sha}" >> "$GITHUB_OUTPUT"
           echo "artifact_dir=${artifact_dir}" >> "$GITHUB_OUTPUT"
           echo "artifact_name=${artifact_name}" >> "$GITHUB_OUTPUT"
           echo "checksum_name=${checksum_name}" >> "$GITHUB_OUTPUT"
@@ -79,18 +98,13 @@ jobs:
           artifact_dir="${{ steps.meta.outputs.artifact_dir }}"
           artifact_name="${{ steps.meta.outputs.artifact_name }}"
           checksum_name="${{ steps.meta.outputs.checksum_name }}"
+          tag="${{ steps.meta.outputs.tag }}"
 
-          # Build a deterministic source archive from the checked-out tagged tree.
-          #
-          # We use `git archive` instead of a GitHub-generated source ZIP/TGZ so:
-          # - the repository controls the exact artifact that is attested;
-          # - the artifact can also be uploaded as a workflow artifact;
-          # - future release pipelines can reuse the same source-bundle contract.
           git archive \
             --format=tar.gz \
             --prefix="arcoris-pool/" \
             -o "${artifact_dir}/${artifact_name}" \
-            HEAD
+            "${tag}"
 
           sha256sum "${artifact_dir}/${artifact_name}" | tee "${artifact_dir}/${checksum_name}"
 
@@ -107,9 +121,6 @@ jobs:
       - name: "Generate provenance attestation"
         uses: "actions/attest@v4"
         with:
-          # New GitHub implementations should use `actions/attest`.
-          # `actions/attest-build-provenance` is now a thin wrapper and its own
-          # README recommends `actions/attest` for new setups.
           subject-path: "${{ steps.meta.outputs.artifact_dir }}/${{ steps.meta.outputs.artifact_name }}"
 
       - name: "Publish workflow summary"
@@ -118,11 +129,10 @@ jobs:
           {
             echo "# Attestation Summary"
             echo
+            echo "- Stable tag: \`${{ steps.meta.outputs.tag }}\`"
+            echo "- Source commit: \`${{ steps.meta.outputs.release_sha }}\`"
             echo "- Subject: \`${{ steps.meta.outputs.artifact_name }}\`"
             echo "- Checksum file: \`${{ steps.meta.outputs.checksum_name }}\`"
-            echo "- Trigger: \`${{ github.event_name }}\`"
-            echo "- Ref: \`${{ github.ref }}\`"
+            echo "- Policy: stable attestations must point to a commit reachable from \`main\`"
             echo "- Result: provenance attestation created"
-            echo
-            echo "Consumers can verify attestations with the GitHub CLI attestation commands."
           } >> "$GITHUB_STEP_SUMMARY"

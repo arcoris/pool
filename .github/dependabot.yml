@@ -18,6 +18,7 @@ updates:
   # Go module dependencies.
   - package-ecosystem: "gomod"
     directory: "/"
+    target-branch: "main"
     schedule:
       interval: "weekly"
       day: "monday"
@@ -32,7 +33,7 @@ updates:
       - "dependencies"
       - "go"
     commit-message:
-      prefix: "deps"
+      prefix: "chore"
       include: "scope"
 
     # Group routine module updates together so maintainers are not flooded with
@@ -59,6 +60,7 @@ updates:
   # GitHub Actions dependencies used by repository automation.
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "main"
     schedule:
       interval: "weekly"
       day: "monday"
@@ -71,7 +73,7 @@ updates:
       - "dependencies"
       - "github-actions"
     commit-message:
-      prefix: "deps"
+      prefix: "chore"
       include: "scope"
 
     groups:

@@ -18,17 +18,14 @@
   push:
     branches:
       - "main"
-      - "next"
   pull_request:
     branches:
       - "main"
-      - "next"
-  merge_group:
   workflow_dispatch:
   schedule:
     # Weekly scheduled scan so the repository is re-checked even when there are
     # no dependency-changing pull requests in flight.
-    - cron: "13 5 * * 2"
+    - cron: "0 3 * * 1"
 
 permissions:
   contents: "read"
@@ -49,7 +46,7 @@ jobs:
         uses: "actions/checkout@v6"
         with:
           # Full history is not strictly required by govulncheck itself, but it
-          # keeps repository state consistent across push / PR / merge-group jobs
+          # keeps repository state consistent across push / PR jobs
           # and matches the rest of the security workflow layer.
           fetch-depth: 0
 

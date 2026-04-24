@@ -17,12 +17,10 @@
 "on":
   push:
     branches:
-      - "main"
-      - "next"
+      - "**"
   pull_request:
     branches:
       - "main"
-      - "next"
   # Support merge queues / merge groups if the repository enables them later.
   merge_group:
   workflow_dispatch:
@@ -91,7 +89,7 @@ jobs:
           # change set. This makes review output more actionable and avoids
           # turning old repository debt into PR noise.
           #
-          # On push events to release branches, lint the whole repository state.
+          # On push events, lint the whole repository state.
           only-new-issues: ${{ github.event_name == 'pull_request' || github.event_name == 'merge_group' }}
 
           # Refresh caches periodically so stale linter state does not linger

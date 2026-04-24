@@ -16,17 +16,21 @@
 
 "on":
   push:
-    branches:
-      - "main"
-      - "next"
+    tags:
+      - "v*.*.*"
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Existing stable tag to publish (for example: v1.2.3)"
+        required: true
+        type: "string"
 
 concurrency:
-  # Only one release pipeline should run per branch at a time.
+  # Keep only one stable release publication active for the same ref at a time.
   #
-  # This avoids overlapping semantic-release executions on the same release
-  # branch, which can otherwise race on tags, changelog commits, or GitHub
-  # release publication.
+  # Tag-triggered runs naturally serialize by tag ref. Manual dispatches are
+  # still grouped by the selected workflow ref, which is good enough for the
+  # recovery-oriented manual path.
   group: "release-${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
 
@@ -34,22 +38,54 @@ jobs:
   verify:
     name: "verify"
     runs-on: "ubuntu-latest"
+    outputs:
+      release_tag: "${{ steps.meta.outputs.release_tag }}"
+      release_sha: "${{ steps.meta.outputs.release_sha }}"
 
     permissions:
       contents: "read"
 
     steps:
-      - name: "Checkout repository"
+      - name: "Checkout stable tag source"
         uses: "actions/checkout@v6"
         with:
-          # semantic-release itself needs full history later, but keeping fetch
-          # depth explicit here avoids accidental dependence on a shallow clone.
+          # Stable releases are published from an existing SemVer tag, not from
+          # branch pushes. For manual dispatches, the caller must provide the
+          # tag explicitly.
+          ref: "${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref_name }}"
           fetch-depth: 0
+
+      - name: "Resolve and validate stable release tag"
+        id: meta
+        shell: "bash"
+        run: |
+          set -euo pipefail
+
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            release_tag="${{ inputs.release_tag }}"
+          else
+            release_tag="${GITHUB_REF_NAME}"
+          fi
+
+          if [[ ! "${release_tag}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "stable releases require a SemVer tag in the form vX.Y.Z; got ${release_tag}" >&2
+            exit 1
+          fi
+
+          git fetch origin main --force
+
+          release_sha="$(git rev-list -n 1 "${release_tag}")"
+          if ! git merge-base --is-ancestor "${release_sha}" "origin/main"; then
+            echo "stable release tag ${release_tag} does not point to a commit reachable from origin/main" >&2
+            exit 1
+          fi
+
+          echo "release_tag=${release_tag}" >> "$GITHUB_OUTPUT"
+          echo "release_sha=${release_sha}" >> "$GITHUB_OUTPUT"
 
       - name: "Setup Go"
         uses: "actions/setup-go@v6"
         with:
-          # Respect the Go version declared by the repository.
           go-version-file: "go.mod"
           cache: true
 
@@ -71,108 +107,39 @@ jobs:
     needs:
       - "verify"
 
-    # Releasing happens only after the verification job passes on a push to a
-    # configured release branch (`main` or `next`).
-    #
-    # This does NOT replace branch protection:
-    # - protect `main` and `next`
-    # - require pull requests before merge
-    # - require approving reviews
-    # - require status checks
-    #
-    # semantic-release can only be made "PR-gated" through repository rules,
-    # not through release.config.cjs alone.
     permissions:
-      # Needed by @semantic-release/github to publish releases.
       contents: "write"
-      # Needed only if the GitHub plugin adds labels or comments to issues.
-      issues: "write"
-      # Needed only if the GitHub plugin adds labels or comments to pull requests.
-      pull-requests: "write"
 
-    # Optional but strongly recommended:
-    # create a GitHub Environment named `release` and require reviewers there.
-    #
-    # If the environment is configured with required reviewers, this job will
-    # pause for explicit approval before using secrets and publishing a release.
     environment:
       name: "release"
 
     steps:
-      - name: "Checkout repository"
-        uses: "actions/checkout@v6"
-        with:
-          # semantic-release requires the full git history and tags to calculate
-          # the next version correctly.
-          fetch-depth: 0
-
-      - name: "Setup Node.js"
-        uses: "actions/setup-node@v6"
-        with:
-          # This repository intentionally does not carry `package.json` or
-          # `package-lock.json`.
-          #
-          # Release tooling is installed ephemerally at workflow runtime instead
-          # of being modeled as a committed Node project inside this Go library.
-          # Disable package-manager cache discovery so `setup-node` does not look
-          # for absent npm manifests.
-          node-version: "24"
-          package-manager-cache: false
-
-      - name: "Show Node and npm versions"
-        run: |
-          node --version
-          npm --version
-
-      - name: "Install standalone semantic-release toolchain"
-        run: |
-          # Keep the workflow honest about repository policy:
-          # - no `package.json`
-          # - no `package-lock.json`
-          # - no half-lockfile / half-fallback logic
-          #
-          # `--package-lock=false` prevents npm from fabricating a lockfile in the
-          # checked-out tree during CI.
-          npm install --no-save --package-lock=false --no-audit --fund=false \
-            semantic-release \
-            @semantic-release/changelog \
-            @semantic-release/commit-analyzer \
-            @semantic-release/git \
-            @semantic-release/github \
-            @semantic-release/release-notes-generator \
-            conventional-changelog-conventionalcommits
-
-      - name: "Verify release configuration exists"
-        run: test -f release.config.cjs
-
-      - name: "Run semantic-release"
+      - name: "Publish GitHub release from stable tag"
         env:
-          # Default path:
-          # - GITHUB_TOKEN is enough to publish GitHub releases.
-          #
-          # Important limitation:
-          # - if your branch protection forbids bot pushes, the @semantic-release/git
-          #   plugin may fail when committing CHANGELOG.md back to the release
-          #   branch using the default token.
-          #
-          # If you intentionally allow protected-branch release commits through a
-          # dedicated GitHub App or PAT, store that token as
-          # `SEMANTIC_RELEASE_TOKEN` and it will take precedence.
-          #
-          # If you do NOT want automation to push back to a protected branch,
-          # remove `@semantic-release/git` / changelog commit-back behavior from
-          # the semantic-release configuration instead of weakening branch rules
-          # casually.
-          #
-          # This workflow intentionally installs semantic-release tooling
-          # ephemerally and does not rely on a committed Node manifest.
-          DEFAULT_GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          SEMANTIC_RELEASE_TOKEN: "${{ secrets.SEMANTIC_RELEASE_TOKEN }}"
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          RELEASE_TAG: "${{ needs.verify.outputs.release_tag }}"
+        shell: "bash"
         run: |
-          if [ -n "${SEMANTIC_RELEASE_TOKEN}" ]; then
-            export GH_TOKEN="${SEMANTIC_RELEASE_TOKEN}"
-          else
-            export GH_TOKEN="${DEFAULT_GH_TOKEN}"
+          set -euo pipefail
+
+          if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+            echo "GitHub release for ${RELEASE_TAG} already exists; leaving it unchanged."
+            exit 0
           fi
 
-          npx semantic-release
+          gh release create "${RELEASE_TAG}" \
+            --verify-tag \
+            --generate-notes \
+            --title "${RELEASE_TAG}"
+
+      - name: "Publish workflow summary"
+        shell: "bash"
+        run: |
+          {
+            echo "# Release Summary"
+            echo
+            echo "- Stable tag: \`${{ needs.verify.outputs.release_tag }}\`"
+            echo "- Source commit: \`${{ needs.verify.outputs.release_sha }}\`"
+            echo "- Policy: stable releases must point to a commit reachable from \`main\`"
+            echo "- Result: GitHub release published or already present"
+          } >> "$GITHUB_STEP_SUMMARY"

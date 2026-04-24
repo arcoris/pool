@@ -22,8 +22,10 @@
  * such as `@semantic-release/npm` and package.json version rewriting.
  *
  * Release model:
- * - `main` publishes stable releases to the default channel
- * - `next` publishes prereleases to the `next` channel
+ * - `main` is the stable release source
+ * - stable tags are created from `main`
+ * - stable publication is intentionally separated from ordinary development
+ *   branch pushes
  *
  * Versioning model:
  * - `feat` -> minor
@@ -49,7 +51,7 @@
  * - protected branches / rulesets
  * - required status checks
  * - required reviews
- * - release workflow triggers only on pushes to protected release branches
+ * - tag-gated or otherwise protected release workflow triggers
  *
  * semantic-release itself explicitly warns that any user who can push to a
  * configured release branch can publish a release. Protect those branches.
@@ -70,22 +72,15 @@ module.exports = {
      * `main`
      *   Stable releases published to the default distribution channel.
      *
-     * `next`
-     *   Prereleases published to the `next` channel with prerelease identifiers.
-     *
      * This keeps the repository release flow simple:
-     * - stable work lands on `main`
-     * - preview / pre-release work can flow through `next`
+     * - normal development lands on short-lived topic branches
+     * - normal changes merge into `main`
+     * - stable release tags are cut from `main`
      */
     branches: [
         {
             name: 'main',
             channel: 'latest',
-        },
-        {
-            name: 'next',
-            channel: 'next',
-            prerelease: 'next',
         },
     ],
 
